@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect fill="#8B0000" width="400" height="300"/>
+  <text x="200" y="120" font-family="Arial" font-size="80" text-anchor="middle" fill="#FFFFFF">🥤</text>
+  <text x="200" y="200" font-family="Arial" font-size="24" text-anchor="middle" fill="#FFFFFF" font-weight="bold">可口可乐</text>
+  <text x="200" y="230" font-family="Arial" font-size="16" text-anchor="middle" fill="#FFD700">330ml 罐装</text>
+  <text x="200" y="270" font-family="Arial" font-size="28" text-anchor="middle" fill="#FFD700" font-weight="bold">¥6.00</text>
+</svg>

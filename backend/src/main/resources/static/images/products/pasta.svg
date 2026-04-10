@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect fill="#FFE4B5" width="400" height="300"/>
+  <text x="200" y="120" font-family="Arial" font-size="80" text-anchor="middle" fill="#CD5C5C">🍝</text>
+  <text x="200" y="200" font-family="Arial" font-size="24" text-anchor="middle" fill="#8B4513" font-weight="bold">意式肉酱面</text>
+  <text x="200" y="230" font-family="Arial" font-size="16" text-anchor="middle" fill="#A0522D">精选牛肉酱 + 意大利面</text>
+  <text x="200" y="270" font-family="Arial" font-size="28" text-anchor="middle" fill="#D2691E" font-weight="bold">¥28.90</text>
+</svg>
