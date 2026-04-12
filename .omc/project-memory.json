@@ -1,0 +1,435 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775879883022,
+  "projectRoot": "D:\\Projects\\AI\\order-food-system",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "backend": {
+      "path": "backend",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1775879883012,
+      "keyFiles": [
+        "Dockerfile",
+        "pom.xml"
+      ]
+    },
+    "frontend": {
+      "path": "frontend",
+      "purpose": null,
+      "fileCount": 11,
+      "lastAccessed": 1775879883012,
+      "keyFiles": [
+        "check-pages.js",
+        "Dockerfile",
+        "eslint.config.js",
+        "index.html",
+        "nginx.conf"
+      ]
+    },
+    "frontend-admin": {
+      "path": "frontend-admin",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1775879883012,
+      "keyFiles": [
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "vite.config.js"
+      ]
+    },
+    "logs": {
+      "path": "logs",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1775879883013,
+      "keyFiles": [
+        "backend.log",
+        "frontend.log"
+      ]
+    },
+    "backend\\src": {
+      "path": "backend\\src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1775879883013,
+      "keyFiles": []
+    },
+    "frontend\\dist": {
+      "path": "frontend\\dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1775879883013,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
+    },
+    "frontend\\node_modules": {
+      "path": "frontend\\node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1775879883015,
+      "keyFiles": []
+    },
+    "frontend-admin\\dist": {
+      "path": "frontend-admin\\dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 1,
+      "lastAccessed": 1775879883015,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "frontend-admin\\node_modules": {
+      "path": "frontend-admin\\node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1775879883017,
+      "keyFiles": []
+    },
+    "frontend-admin\\src": {
+      "path": "frontend-admin\\src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1775879883017,
+      "keyFiles": [
+        "App.jsx",
+        "main.jsx"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "frontend-admin\\src\\pages\\Products.jsx",
+      "accessCount": 9,
+      "lastAccessed": 1776007582202,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\pages\\Member.jsx",
+      "accessCount": 8,
+      "lastAccessed": 1775885076447,
+      "type": "file"
+    },
+    {
+      "path": "manage.bat",
+      "accessCount": 7,
+      "lastAccessed": 1776005853574,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\Orders.jsx",
+      "accessCount": 7,
+      "lastAccessed": 1776006243062,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\App.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1776006483064,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\Dashboard.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1776006747317,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\Member.java",
+      "accessCount": 5,
+      "lastAccessed": 1775884179106,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\pages\\Coupon.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775885105739,
+      "type": "directory"
+    },
+    {
+      "path": "frontend-admin\\src\\main.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1776006376141,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\config\\SecurityConfig.java",
+      "accessCount": 4,
+      "lastAccessed": 1775884189232,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\br4ohq9cn.output",
+      "accessCount": 4,
+      "lastAccessed": 1776001440185,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\resources\\schema.sql",
+      "accessCount": 4,
+      "lastAccessed": 1776002040007,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminStatisticsController.java",
+      "accessCount": 4,
+      "lastAccessed": 1776006716149,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\resources\\application.yml",
+      "accessCount": 3,
+      "lastAccessed": 1775884535557,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\pages\\Login.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885132600,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\Checkout.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885165697,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\Cart.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885188930,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\OrderList.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885248942,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\OrderDetail.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885249189,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\Profile.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775885249442,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\boto190t6.output",
+      "accessCount": 3,
+      "lastAccessed": 1776002970013,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\AuthService.java",
+      "accessCount": 3,
+      "lastAccessed": 1776004239622,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\impl\\MemberServiceImpl.java",
+      "accessCount": 2,
+      "lastAccessed": 1775880421281,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\services\\api.js",
+      "accessCount": 2,
+      "lastAccessed": 1775884224307,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\pages",
+      "accessCount": 2,
+      "lastAccessed": 1775885254391,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\resources",
+      "accessCount": 2,
+      "lastAccessed": 1776001869189,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bk5pgdx9i.output",
+      "accessCount": 2,
+      "lastAccessed": 1776003150790,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\Members.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776006126103,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\Promotions.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776006138003,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\Product.java",
+      "accessCount": 2,
+      "lastAccessed": 1776006457823,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller",
+      "accessCount": 2,
+      "lastAccessed": 1776007133168,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\MemberController.java",
+      "accessCount": 1,
+      "lastAccessed": 1775880408450,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\PromotionController.java",
+      "accessCount": 1,
+      "lastAccessed": 1775884194525,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\services",
+      "accessCount": 1,
+      "lastAccessed": 1775884208662,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775885032677,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\util\\RsaUtil.java",
+      "accessCount": 1,
+      "lastAccessed": 1775989960045,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\b26wfb6mi.output",
+      "accessCount": 1,
+      "lastAccessed": 1775990196748,
+      "type": "file"
+    },
+    {
+      "path": "backend\\GenHash.java",
+      "accessCount": 1,
+      "lastAccessed": 1776003863952,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\vite.config.js",
+      "accessCount": 1,
+      "lastAccessed": 1776005584999,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\services\\api.js",
+      "accessCount": 1,
+      "lastAccessed": 1776005585017,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java",
+      "accessCount": 1,
+      "lastAccessed": 1776005594234,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminProductController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005655419,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminOrderController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005655674,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminMemberController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005655915,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminPromotionController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005656154,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper",
+      "accessCount": 1,
+      "lastAccessed": 1776005663719,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\ProductMapper.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005668177,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\OrderMapper.java",
+      "accessCount": 1,
+      "lastAccessed": 1776005668242,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\b7a7a5o7w.output",
+      "accessCount": 1,
+      "lastAccessed": 1776006445352,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\FileUploadController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776007137668,
+      "type": "directory"
+    }
+  ],
+  "userDirectives": []
+}

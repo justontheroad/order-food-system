@@ -45,10 +45,23 @@ public class RsaUtil {
     }
 
     /**
-     * 获取公钥字符串 (Base64 编码)
+     * 获取公钥字符串 (PEM 格式)
      */
     public String getPublicKeyString() {
-        return Base64.getEncoder().encodeToString(publicKey.getEncoded());
+        String raw = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+        // Format as PEM
+        return "-----BEGIN PUBLIC KEY-----\n" +
+               insertLineBreaks(raw, 64) +
+               "\n-----END PUBLIC KEY-----";
+    }
+
+    private String insertLineBreaks(String str, int lineLength) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i += lineLength) {
+            if (i > 0) sb.append("\n");
+            sb.append(str.substring(i, Math.min(i + lineLength, str.length())));
+        }
+        return sb.toString();
     }
 
     /**

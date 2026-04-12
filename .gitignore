@@ -119,7 +119,10 @@ backend/uploads/*
 
 # ==================== Claude / OMC ====================
 .claude/
-.omc/
+.omc/sessions
+.omc/state
+*/.omc/sessions
+*/.omc/state
 
 # ==================== Misc ====================
 # Temporary files

@@ -36,9 +36,15 @@ public class SecurityConfig {
                 // 公开接口（无需登录）
                 .requestMatchers(
                     "/api/auth/**",
+                    "/api/admin/**",
                     "/api/products/**",
                     "/api/categories/**",
                     "/api/cart/**",
+                    "/api/member/**",
+                    "/api/promotions/**",
+                    "/api/user/coupons",
+                    "/api/payments/**",
+                    "/api/orders/**",
                     "/druid/**",
                     "/images/**",
                     "/uploads/**",

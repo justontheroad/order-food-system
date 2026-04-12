@@ -1,0 +1,206 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775490018078,
+  "projectRoot": "D:\\Projects\\AI\\web-test\\frontend",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "playwright",
+        "version": "1.59.1",
+        "category": "testing"
+      },
+      {
+        "name": "vite",
+        "version": "5.4.21",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite --host",
+      "build": "vite build",
+      "preview": "vite preview"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1775490018064,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 2,
+      "lastAccessed": 1775490018067,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 4,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "App.css",
+        "App.jsx",
+        "index.css",
+        "main.jsx"
+      ]
+    },
+    "dist\\assets": {
+      "path": "dist\\assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "index-B3Wy7uJz.css",
+        "index-ndUCZXBn.js"
+      ]
+    },
+    "src\\assets": {
+      "path": "src\\assets",
+      "purpose": "Static assets",
+      "fileCount": 3,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "hero.png",
+        "react.svg",
+        "vite.svg"
+      ]
+    },
+    "src\\components": {
+      "path": "src\\components",
+      "purpose": "UI components",
+      "fileCount": 3,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "Layout.jsx",
+        "ProductCard.jsx",
+        "ProtectedRoute.jsx"
+      ]
+    },
+    "src\\pages": {
+      "path": "src\\pages",
+      "purpose": "Page components",
+      "fileCount": 8,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "Cart.jsx",
+        "Checkout.jsx",
+        "Home.jsx"
+      ]
+    },
+    "src\\services": {
+      "path": "src\\services",
+      "purpose": "Business logic services",
+      "fileCount": 1,
+      "lastAccessed": 1775490018068,
+      "keyFiles": [
+        "api.js"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src\\pages\\OrderDetail.jsx",
+      "accessCount": 5,
+      "lastAccessed": 1775490143764,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Member.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1775834631426,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Member.css",
+      "accessCount": 2,
+      "lastAccessed": 1775834639243,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Checkout.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775834666928,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\ProductCard.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1775885402291,
+      "type": "file"
+    },
+    {
+      "path": "src\\services\\api.js",
+      "accessCount": 1,
+      "lastAccessed": 1775490067373,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Coupon.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1775834642706,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Menu.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1775885380253,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

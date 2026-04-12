@@ -8,9 +8,10 @@ spring:
     name: h5-ordering-system
 
   # 数据库初始化配置
+  # mode: always 仅在首次创建数据库时使用，之后改为 never 避免数据被重置
   sql:
     init:
-      mode: always
+      mode: never
       schema-locations: classpath:schema.sql
       continue-on-error: false
       encoding: UTF-8

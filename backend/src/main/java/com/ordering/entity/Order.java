@@ -58,6 +58,11 @@ public class Order {
     private LocalDateTime payTime;
 
     /**
+     * 支付完成时间
+     */
+    private LocalDateTime paidAt;
+
+    /**
      * 备注
      */
     private String remark;

@@ -47,6 +47,11 @@ public class Shop {
     private String businessHours;
 
     /**
+     * 排序顺序
+     */
+    private Integer sortOrder;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createdAt;

@@ -160,4 +160,24 @@ export const userApi = {
   updateInfo: (nickname) => api.put('/user/info', null, { params: { nickname } }),
 };
 
+// 会员 API
+export const memberApi = {
+  getInfo: () => api.get('/member/info'),
+  getPoints: () => api.get('/member/points'),
+  exchangePoints: (data) => api.post('/member/points/exchange', data),
+};
+
+// 优惠券 API
+export const couponApi = {
+  getAvailable: () => api.get('/promotions/coupons'),
+  receive: (couponId) => api.post(`/promotions/coupons/${couponId}/receive`),
+  getMyCoupons: () => api.get('/promotions/user/coupons'),
+};
+
+// 支付 API
+export const paymentApi = {
+  wechatPay: (data) => api.post('/payments/wechat', data),
+  queryPayStatus: (orderId) => api.get(`/payments/${orderId}/status`),
+};
+
 export default api;

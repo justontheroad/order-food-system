@@ -12,7 +12,7 @@ const Layout = () => {
   // 同步路由状态到 TabBar
   React.useEffect(() => {
     const path = location.pathname.replace('/', '');
-    if (['home', 'menu', 'cart', 'orders', 'profile', 'checkout'].includes(path)) {
+    if (['home', 'menu', 'cart', 'orders', 'profile', 'checkout', 'member', 'coupon'].includes(path)) {
       setActive(path);
     }
   }, [location.pathname]);
@@ -55,6 +55,8 @@ const Layout = () => {
         <TabBar.Item key="menu" title="菜单" icon={<span>🍔</span>} />
         <TabBar.Item key="cart" title="购物车" icon={<span>🛒</span>} badge={cartCount > 0 ? cartCount : undefined} />
         <TabBar.Item key="orders" title="订单" icon={<span>📋</span>} />
+        <TabBar.Item key="member" title="会员" icon={<span>🎫</span>} />
+        <TabBar.Item key="coupon" title="券" icon={<span>🎟️</span>} />
         <TabBar.Item key="profile" title="我的" icon={<span>👤</span>} />
       </TabBar>
     </div>

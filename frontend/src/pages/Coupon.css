@@ -1,0 +1,89 @@
+.coupon-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.coupon-list {
+  padding: 12px;
+}
+
+.coupon-card {
+  margin-bottom: 12px;
+}
+
+.coupon-card.adm-card {
+  background: white;
+}
+
+.coupon-content {
+  display: flex;
+  gap: 12px;
+}
+
+.coupon-left {
+  width: 100px;
+  background: linear-gradient(135deg, #ff4300 0%, #ff6b35 100%);
+  border-radius: 8px;
+  padding: 16px 8px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.coupon-amount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.amount-symbol {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.amount-value {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.coupon-condition {
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.coupon-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.coupon-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.coupon-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+/* 嵌套 Tabs 样式调整 */
+.coupon-page .adm-tabs-content {
+  padding-top: 0;
+}
+
+.coupon-page .adm-tabs-header {
+  background: white;
+}

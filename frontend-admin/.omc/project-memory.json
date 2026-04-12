@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775989901438,
+  "projectRoot": "D:\\Projects\\AI\\order-food-system\\frontend-admin",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.2.0",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.2.0",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "5.0.0",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 1,
+      "lastAccessed": 1775989901424,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1775989901424,
+      "keyFiles": [
+        "App.jsx",
+        "main.jsx"
+      ]
+    },
+    "dist\\assets": {
+      "path": "dist\\assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1775989901428,
+      "keyFiles": [
+        "index-BdOndhxL.css",
+        "index-CNQL189E.js"
+      ]
+    },
+    "src\\components": {
+      "path": "src\\components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1775989901428,
+      "keyFiles": []
+    },
+    "src\\pages": {
+      "path": "src\\pages",
+      "purpose": "Page components",
+      "fileCount": 6,
+      "lastAccessed": 1775989901429,
+      "keyFiles": [
+        "Dashboard.jsx",
+        "Login.jsx",
+        "Members.jsx"
+      ]
+    },
+    "src\\services": {
+      "path": "src\\services",
+      "purpose": "Business logic services",
+      "fileCount": 1,
+      "lastAccessed": 1775989901429,
+      "keyFiles": [
+        "api.js"
+      ]
+    },
+    "src\\utils": {
+      "path": "src\\utils",
+      "purpose": "Utility functions",
+      "fileCount": 0,
+      "lastAccessed": 1775989901429,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}
