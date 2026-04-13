@@ -23,7 +23,7 @@ import java.util.UUID;
 public class UserController {
 
     private final UserMapper userMapper;
-    private final String uploadDir = "uploads/avatars/";
+    private final String uploadDir = "D:/Projects/AI/order-food-system/uploads/avatars/";
 
     /**
      * 获取当前用户信息

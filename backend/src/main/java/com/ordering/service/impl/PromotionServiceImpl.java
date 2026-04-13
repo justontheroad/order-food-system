@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PromotionServiceImpl implements PromotionService {
             return false;
         }
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         if (now.isBefore(coupon.getStartTime()) || now.isAfter(coupon.getEndTime())) {
             return false;
         }
@@ -76,7 +77,7 @@ public class PromotionServiceImpl implements PromotionService {
         userCoupon.setUserId(userId);
         userCoupon.setCouponId(couponId);
         userCoupon.setStatus(0); // 未使用
-        userCoupon.setReceivedAt(now);
+        userCoupon.setReceivedAt(LocalDateTime.now());
         userCouponMapper.insert(userCoupon);
 
         return true;

@@ -47,20 +47,16 @@ export default function Members() {
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id', width: 60 },
-    { title: '姓名', dataIndex: 'name', key: 'name' },
+    { title: '姓名', dataIndex: 'username', key: 'username' },
     { title: '手机号', dataIndex: 'phone', key: 'phone' },
     { title: '积分', dataIndex: 'points', key: 'points' },
     {
       title: '等级',
-      dataIndex: 'level',
-      key: 'level',
-      render: (v) => {
-        const levelMap = { bronze: '铜牌', silver: '银牌', gold: '金牌', platinum: '金牌' }
-        const colorMap = { bronze: '#cd7f32', silver: '#c0c0c0', gold: '#ffd700', platinum: '#e5e4e2' }
-        return <Tag color={colorMap[v]}>{levelMap[v]}</Tag>
-      }
+      dataIndex: 'level_name',
+      key: 'level_name',
+      render: (v) => v ? <Tag color="gold">{v}</Tag> : '-'
     },
-    { title: '注册时间', dataIndex: 'createdAt', key: 'createdAt' },
+    { title: '注册时间', dataIndex: 'created_at', key: 'created_at' },
     {
       title: '操作',
       key: 'action',
@@ -88,7 +84,7 @@ export default function Members() {
         onOk={handleUpdatePoints}
         onCancel={() => setPointsModalVisible(false)}
       >
-        <p>会员：{selectedMember?.name}</p>
+        <p>会员：{selectedMember?.username || '未知'}</p>
         <p>当前积分：{selectedMember?.points}</p>
         <InputNumber
           min={0}

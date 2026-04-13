@@ -3,8 +3,10 @@ package com.ordering.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -65,12 +67,14 @@ public class Coupon {
     /**
      * 有效期开始时间
      */
-    private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startTime;
 
     /**
      * 有效期结束时间
      */
-    private LocalDateTime endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endTime;
 
     /**
      * 状态：0-禁用 1-启用

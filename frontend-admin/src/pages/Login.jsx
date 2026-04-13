@@ -15,7 +15,7 @@ export default function Login() {
       if (result.code === 200) {
         localStorage.setItem('adminToken', result.data.token)
         message.success('登录成功')
-        navigate('/admin/dashboard')
+        window.location.href = '/admin/dashboard'
       } else {
         message.error(result.message || '用户名或密码错误')
       }

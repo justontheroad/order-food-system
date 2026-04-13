@@ -25,7 +25,9 @@ public class AdminProductController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize) {
         Page<Product> p = new Page<>(page, pageSize);
-        Page<Product> result = productMapper.selectPage(p, null);
+        QueryWrapper<Product> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        Page<Product> result = productMapper.selectPage(p, wrapper);
         return ApiResponse.success(result);
     }
 

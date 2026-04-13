@@ -23,14 +23,21 @@ public class AdminUploadController {
     private String uploadDir;
 
     @PostMapping(value = "/image", consumes = "multipart/form-data")
-    public ApiResponse<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ApiResponse<String> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "type", defaultValue = "products") String type) {
         if (file.isEmpty()) {
             return ApiResponse.error(400, "文件不能为空");
         }
 
         try {
+            // 支持的目录类型
+            if (!type.matches("^(avatars|products|coupons)$")) {
+                type = "products";
+            }
+
             // 创建上传目录
-            Path uploadPath = Paths.get(uploadDir);
+            Path uploadPath = Paths.get(uploadDir, type);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
@@ -46,7 +53,7 @@ public class AdminUploadController {
             Path filePath = uploadPath.resolve(filename);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // 返回访问URL
+            // 返回访问URL（统一使用/uploads/路径保持兼容）
             String url = "/uploads/" + filename;
             return ApiResponse.success(url);
         } catch (Exception e) {

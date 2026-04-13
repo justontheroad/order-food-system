@@ -10,8 +10,8 @@ export default function Products() {
   const [modalVisible, setModalVisible] = useState(false)
   const [editingRecord, setEditingRecord] = useState(null)
   const [filter, setFilter] = useState({})
+  const [imageUrl, setImageUrl] = useState('')
   const [form] = Form.useForm()
-  const uploadRef = useRef()
 
   useEffect(() => {
     loadData()
@@ -33,12 +33,14 @@ export default function Products() {
 
   const handleAdd = () => {
     setEditingRecord(null)
+    setImageUrl('')
     form.resetFields()
     setModalVisible(true)
   }
 
   const handleEdit = (record) => {
     setEditingRecord(record)
+    setImageUrl(record.imageUrl || '')
     form.setFieldsValue(record)
     setModalVisible(true)
   }
@@ -73,10 +75,12 @@ export default function Products() {
   const handleImageUpload = async (file) => {
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('type', 'products')
     try {
-      const result = await uploadImage(formData)
-      // result is ApiResponse, URL is in result.data
-      form.setFieldsValue({ imageUrl: result.data })
+      const response = await uploadImage(formData)
+      const url = response.data
+      form.setFieldsValue({ imageUrl: url })
+      setImageUrl(url)
       message.success('上传成功')
     } catch (error) {
       message.error('上传失败')
@@ -140,9 +144,16 @@ export default function Products() {
             </Select>
           </Form.Item>
           <Form.Item name="imageUrl" label="商品图片">
-            <Upload beforeUpload={handleImageUpload} showUploadList={false}>
-              <Button icon={<UploadOutlined />}>上传图片</Button>
-            </Upload>
+            <div>
+              <Upload beforeUpload={handleImageUpload} showUploadList={false}>
+                <Button icon={<UploadOutlined />}>上传图片</Button>
+              </Upload>
+              {imageUrl && (
+                <div style={{ marginTop: 8 }}>
+                  <img src={imageUrl} alt="商品图片" style={{ maxWidth: 200, maxHeight: 150 }} />
+                </div>
+              )}
+            </div>
           </Form.Item>
           <Form.Item name="description" label="描述">
             <Input.TextArea rows={3} />

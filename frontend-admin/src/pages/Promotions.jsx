@@ -41,8 +41,10 @@ export default function Promotions() {
     setEditingRecord(record)
     form.setFieldsValue({
       ...record,
-      dateRange: record.startDate && record.endDate
-        ? [dayjs(record.startDate), dayjs(record.endDate)]
+      type: record.type === 1 ? 'reduce' : 'discount',
+      value: record.type === 1 ? record.discountAmount : record.discountRate,
+      dateRange: record.startTime && record.endTime
+        ? [dayjs(record.startTime), dayjs(record.endTime)]
         : null
     })
     setModalVisible(true)
@@ -62,11 +64,16 @@ export default function Promotions() {
     try {
       const values = await form.validateFields()
       const data = {
-        ...values,
-        startDate: values.dateRange?.[0].format('YYYY-MM-DD'),
-        endDate: values.dateRange?.[1].format('YYYY-MM-DD')
+        name: values.name,
+        type: values.type === 'reduce' ? 1 : 2,
+        minAmount: values.minAmount,
+        discountAmount: values.type === 'reduce' ? values.value : null,
+        discountRate: values.type === 'discount' ? values.value : null,
+        totalCount: values.totalCount,
+        startTime: values.dateRange?.[0].format('YYYY-MM-DD'),
+        endTime: values.dateRange?.[1].format('YYYY-MM-DD'),
+        status: 1
       }
-      delete data.dateRange
 
       if (editingRecord) {
         await updatePromotion(editingRecord.id, data)
@@ -89,18 +96,18 @@ export default function Promotions() {
       title: '类型',
       dataIndex: 'type',
       key: 'type',
-      render: (v) => v === 'discount' ? <Tag color="blue">折扣</Tag> : <Tag color="green">满减</Tag>
+      render: (v) => v === 1 ? <Tag color="green">满减</Tag> : <Tag color="blue">折扣</Tag>
     },
     { title: '门槛', dataIndex: 'minAmount', key: 'minAmount', render: (v) => v ? `¥${v}` : '无门槛' },
-    { title: '优惠金额/折扣', dataIndex: 'value', key: 'value', render: (v, r) => r.type === 'discount' ? `${v}折` : `¥${v}` },
+    { title: '优惠', dataIndex: 'discountAmount', key: 'discountAmount', render: (v, r) => r.type === 1 ? `¥${v}` : `${r.discountRate}折` },
     { title: '发放数量', dataIndex: 'totalCount', key: 'totalCount' },
-    { title: '已领取', dataIndex: 'usedCount', key: 'usedCount' },
-    { title: '有效期', dataIndex: 'endDate', key: 'dateRange', render: (_, r) => `${r.startDate} ~ ${r.endDate}` },
+    { title: '已领取', dataIndex: 'receivedCount', key: 'receivedCount' },
+    { title: '有效期', dataIndex: 'endTime', key: 'dateRange', render: (_, r) => `${r.startTime} ~ ${r.endTime}` },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render: (v) => <Tag color={v === 'active' ? 'green' : 'red'}>{v === 'active' ? '生效中' : '已过期'}</Tag>
+      render: (v) => <Tag color={v === 1 ? 'green' : 'red'}>{v === 1 ? '启用' : '禁用'}</Tag>
     },
     {
       title: '操作',

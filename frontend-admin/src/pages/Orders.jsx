@@ -4,12 +4,12 @@ import { EyeOutlined } from '@ant-design/icons'
 import { getOrders, getOrder, updateOrderStatus } from '../services/api'
 
 const statusMap = {
-  pending: { text: '待支付', color: 'orange' },
-  paid: { text: '已支付', color: 'blue' },
-  preparing: { text: '制作中', color: 'cyan' },
-  ready: { text: '已完成', color: 'green' },
-  completed: { text: '已取餐', color: 'default' },
-  cancelled: { text: '已取消', color: 'red' }
+  0: { text: '待支付', color: 'orange' },
+  1: { text: '待制作', color: 'blue' },
+  2: { text: '制作中', color: 'cyan' },
+  3: { text: '待取餐', color: 'green' },
+  4: { text: '已完成', color: 'default' },
+  5: { text: '已取消', color: 'red' }
 }
 
 export default function Orders() {
@@ -67,13 +67,13 @@ export default function Orders() {
 
   const columns = [
     { title: '订单号', dataIndex: 'orderNo', key: 'orderNo' },
-    { title: '会员', dataIndex: ['member', 'name'], key: 'memberName' },
+    { title: '会员', dataIndex: 'memberName', key: 'memberName' },
     { title: '金额', dataIndex: 'totalAmount', key: 'totalAmount', render: (v) => `¥${v}` },
     {
       title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      render: (v) => <Tag color={statusMap[v]?.color}>{statusMap[v]?.text}</Tag>
+      dataIndex: 'statusText',
+      key: 'statusText',
+      render: (v, record) => <Tag color={statusMap[record.status]?.color}>{v}</Tag>
     },
     { title: '下单时间', dataIndex: 'createdAt', key: 'createdAt' },
     {
@@ -82,17 +82,17 @@ export default function Orders() {
       render: (_, record) => (
         <Space>
           <Button type="link" icon={<EyeOutlined />} onClick={() => handleViewDetail(record.id)}>详情</Button>
-          {record.status === 'pending' && (
-            <Button type="link" onClick={() => handleUpdateStatus(record.id, 'cancelled')}>取消</Button>
+          {record.status === 0 && (
+            <Button type="link" onClick={() => handleUpdateStatus(record.id, 5)}>取消</Button>
           )}
-          {record.status === 'paid' && (
-            <Button type="link" onClick={() => handleUpdateStatus(record.id, 'preparing')}>开始制作</Button>
+          {record.status === 1 && (
+            <Button type="link" onClick={() => handleUpdateStatus(record.id, 2)}>开始制作</Button>
           )}
-          {record.status === 'preparing' && (
-            <Button type="link" onClick={() => handleUpdateStatus(record.id, 'ready')}>完成制作</Button>
+          {record.status === 2 && (
+            <Button type="link" onClick={() => handleUpdateStatus(record.id, 3)}>完成制作</Button>
           )}
-          {record.status === 'ready' && (
-            <Button type="link" onClick={() => handleUpdateStatus(record.id, 'completed')}>确认取餐</Button>
+          {record.status === 3 && (
+            <Button type="link" onClick={() => handleUpdateStatus(record.id, 4)}>确认取餐</Button>
           )}
         </Space>
       )
@@ -109,7 +109,7 @@ export default function Orders() {
           onChange={setStatusFilter}
         >
           {Object.entries(statusMap).map(([k, v]) => (
-            <Select.Option key={k} value={k}>{v.text}</Select.Option>
+            <Select.Option key={k} value={parseInt(k)}>{v.text}</Select.Option>
           ))}
         </Select>
       </Space>

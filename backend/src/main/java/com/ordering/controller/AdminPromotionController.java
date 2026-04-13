@@ -24,7 +24,7 @@ public class AdminPromotionController {
             @RequestParam(defaultValue = "10") Integer pageSize) {
         Page<Coupon> p = new Page<>(page, pageSize);
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("created_at");
+        wrapper.orderByDesc("id");
         Page<Coupon> result = couponMapper.selectPage(p, wrapper);
         return ApiResponse.success(result);
     }

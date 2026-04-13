@@ -20,13 +20,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    private final String uploadDir = "uploads/";
+    private final String uploadDir = "D:/Projects/AI/order-food-system/uploads";
 
     /**
      * 上传图片文件
      */
     @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ApiResponse<Map<String, String>> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "type", defaultValue = "products") String type) {
         try {
             if (file.isEmpty()) {
                 return ApiResponse.error(400, "请选择要上传的文件");
@@ -38,8 +40,13 @@ public class FileUploadController {
                 return ApiResponse.error(400, "只能上传图片文件");
             }
 
+            // 支持的目录类型
+            if (!type.matches("^(avatars|products|coupons)$")) {
+                type = "products";
+            }
+
             // 创建上传目录
-            Path uploadPath = Paths.get(uploadDir);
+            Path uploadPath = Paths.get(uploadDir, type);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
@@ -56,7 +63,7 @@ public class FileUploadController {
             // 保存文件
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // 返回文件访问 URL
+            // 返回文件访问 URL（统一使用/uploads/路径保持兼容）
             Map<String, String> result = new HashMap<>();
             result.put("url", "/uploads/" + filename);
             result.put("filename", filename);
