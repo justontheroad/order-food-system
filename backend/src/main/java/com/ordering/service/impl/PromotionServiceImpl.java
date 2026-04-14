@@ -1,6 +1,7 @@
 package com.ordering.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
 import com.ordering.entity.UserCoupon;
 import com.ordering.mapper.CouponMapper;
@@ -15,6 +16,8 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 促销服务实现类
@@ -88,6 +91,59 @@ public class PromotionServiceImpl implements PromotionService {
         return userCouponMapper.selectList(new LambdaQueryWrapper<UserCoupon>()
                 .eq(UserCoupon::getUserId, userId)
                 .orderByDesc(UserCoupon::getReceivedAt));
+    }
+
+    /**
+     * 获取用户优惠券（含优惠券详情）
+     */
+    public List<UserCouponDTO> getUserCouponsWithDetails(Long userId) {
+        List<UserCoupon> userCoupons = getUserCoupons(userId);
+
+        // 获取所有涉及的couponIds
+        List<Long> couponIds = userCoupons.stream()
+                .map(UserCoupon::getCouponId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        // 批量查询优惠券信息
+        Map<Long, Coupon> couponMap = couponMapper.selectBatchIds(couponIds).stream()
+                .collect(Collectors.toMap(Coupon::getId, c -> c));
+
+        // 转换为DTO
+        return userCoupons.stream().map(uc -> {
+            UserCouponDTO dto = new UserCouponDTO();
+            dto.setId(uc.getId());
+            dto.setUserId(uc.getUserId());
+            dto.setCouponId(uc.getCouponId());
+            dto.setStatus(uc.getStatus());
+            dto.setStatusText(getStatusText(uc.getStatus()));
+            dto.setReceivedAt(uc.getReceivedAt());
+            dto.setUsedAt(uc.getUsedAt());
+            dto.setOrderId(uc.getOrderId());
+
+            Coupon coupon = couponMap.get(uc.getCouponId());
+            if (coupon != null) {
+                dto.setName(coupon.getName());
+                dto.setType(coupon.getType());
+                dto.setTypeText(coupon.getType() == 1 ? "满减券" : "折扣券");
+                dto.setMinAmount(coupon.getMinAmount());
+                dto.setDiscountAmount(coupon.getDiscountAmount());
+                dto.setDiscountRate(coupon.getDiscountRate());
+                dto.setMaxDiscountAmount(coupon.getMaxDiscountAmount());
+                dto.setExpireTime(coupon.getEndTime().atStartOfDay());
+            }
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    private String getStatusText(Integer status) {
+        if (status == null) return "未知";
+        switch (status) {
+            case 0: return "未使用";
+            case 1: return "已使用";
+            case 2: return "已过期";
+            default: return "未知";
+        }
     }
 
     @Override

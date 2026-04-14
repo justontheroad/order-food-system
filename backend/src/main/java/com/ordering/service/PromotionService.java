@@ -1,5 +1,6 @@
 package com.ordering.service;
 
+import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
 import com.ordering.entity.UserCoupon;
 
@@ -25,6 +26,11 @@ public interface PromotionService {
      * 获取用户已领取的优惠券
      */
     List<UserCoupon> getUserCoupons(Long userId);
+
+    /**
+     * 获取用户优惠券（含详情）
+     */
+    List<UserCouponDTO> getUserCouponsWithDetails(Long userId);
 
     /**
      * 计算订单优惠金额

@@ -1,8 +1,8 @@
 package com.ordering.controller;
 
 import com.ordering.dto.ApiResponse;
+import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
-import com.ordering.entity.UserCoupon;
 import com.ordering.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 促销控制器
@@ -46,12 +45,11 @@ public class PromotionController {
     }
 
     /**
-     * 获取用户的优惠券
-     * 路径: /api/user/coupons
+     * 获取用户的优惠券（含详情）
      */
     @GetMapping("/user/coupons")
-    public ApiResponse<List<UserCoupon>> getUserCoupons(@AuthenticationPrincipal Long userId) {
-        List<UserCoupon> userCoupons = promotionService.getUserCoupons(userId);
+    public ApiResponse<List<UserCouponDTO>> getUserCoupons(@AuthenticationPrincipal Long userId) {
+        List<UserCouponDTO> userCoupons = promotionService.getUserCouponsWithDetails(userId);
         return ApiResponse.success(userCoupons);
     }
 

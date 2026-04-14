@@ -7,6 +7,7 @@ import './Coupon.css';
 const Coupon = () => {
   const queryClient = useQueryClient();
   const [activeKey, setActiveKey] = useState('available');
+  const [myCouponTab, setMyCouponTab] = useState('0');
   const [message, setMessage] = useState('');
 
   const showMessage = (msg) => {
@@ -42,20 +43,18 @@ const Coupon = () => {
   const availableCoupons = availableData?.data || [];
   const myCoupons = myCouponsData?.data || [];
 
-  // 过滤我的优惠券
-  const unusedCoupons = myCoupons.filter(c => c.status === 'unused');
-  const usedCoupons = myCoupons.filter(c => c.status === 'used');
-  const expiredCoupons = myCoupons.filter(c => c.status === 'expired');
+  // 用户已领取的优惠券ID集合
+  const receivedCouponIds = new Set(myCoupons.map(c => c.couponId));
 
-  // 格式化金额
-  const formatAmount = (amount) => {
-    return typeof amount === 'number' ? amount.toFixed(2) : '0.00';
-  };
+  // 过滤我的优惠券 (status: 0-未使用 1-已使用 2-已过期)
+  const unusedCoupons = myCoupons.filter(c => c.status === 0);
+  const usedCoupons = myCoupons.filter(c => c.status === 1);
+  const expiredCoupons = myCoupons.filter(c => c.status === 2);
 
   // 渲染优惠券卡片
   const renderCouponCard = (coupon, showReceiveBtn = false) => {
-    const isExpired = new Date(coupon.expireTime) < new Date();
-    const isUsed = coupon.status === 'used';
+    const isExpired = coupon.expireTime && new Date(coupon.expireTime) < new Date();
+    const isUsed = coupon.status === 1;
 
     return (
       <Card key={coupon.id} className="coupon-card">
@@ -63,7 +62,7 @@ const Coupon = () => {
           <div className="coupon-left">
             <div className="coupon-amount">
               <span className="amount-symbol">¥</span>
-              <span className="amount-value">{formatAmount(coupon.amount)}</span>
+              <span className="amount-value">{coupon.type === 1 ? coupon.discountAmount : coupon.discountRate + '折'}</span>
             </div>
             <div className="coupon-condition">满{coupon.minAmount}可用</div>
           </div>
@@ -72,7 +71,10 @@ const Coupon = () => {
             <div className="coupon-time">
               {coupon.expireTime ? `有效期至 ${coupon.expireTime.split('T')[0]}` : '长期有效'}
             </div>
-            {showReceiveBtn && !isExpired && (
+            {showReceiveBtn && receivedCouponIds.has(coupon.id) && (
+              <Tag color="success">已领取</Tag>
+            )}
+            {showReceiveBtn && !receivedCouponIds.has(coupon.id) && !isExpired && (
               <Button
                 size="small"
                 color="primary"
@@ -82,8 +84,8 @@ const Coupon = () => {
                 立即领取
               </Button>
             )}
-            {isUsed && <Tag color="gray">已使用</Tag>}
-            {isExpired && !isUsed && <Tag color="danger">已过期</Tag>}
+            {!showReceiveBtn && isUsed && <Tag color="gray">已使用</Tag>}
+            {!showReceiveBtn && isExpired && !isUsed && <Tag color="danger">已过期</Tag>}
           </div>
         </div>
       </Card>
@@ -110,29 +112,32 @@ const Coupon = () => {
         </Tabs.Tab>
 
         <Tabs.Tab title="我的优惠券" key="my">
-          <Tabs activeKey={activeKey === 'my' ? 'unused' : activeKey}>
-            <Tabs.Tab title={`未使用 (${unusedCoupons.length})`} key="unused">
+          <Tabs
+            activeKey={myCouponTab}
+            onChange={(key) => setMyCouponTab(key)}
+          >
+            <Tabs.Tab title={`未使用 (${unusedCoupons.length})`} key="0">
               <div className="coupon-list">
                 {unusedCoupons.length > 0 ? (
-                  unusedCoupons.map(coupon => renderCouponCard(coupon))
+                  unusedCoupons.map(c => renderCouponCard(c))
                 ) : (
                   <Empty description="暂无未使用的优惠券" />
                 )}
               </div>
             </Tabs.Tab>
-            <Tabs.Tab title={`已使用 (${usedCoupons.length})`} key="used">
+            <Tabs.Tab title={`已使用 (${usedCoupons.length})`} key="1">
               <div className="coupon-list">
                 {usedCoupons.length > 0 ? (
-                  usedCoupons.map(coupon => renderCouponCard(coupon))
+                  usedCoupons.map(c => renderCouponCard(c))
                 ) : (
                   <Empty description="暂无已使用的优惠券" />
                 )}
               </div>
             </Tabs.Tab>
-            <Tabs.Tab title={`已过期 (${expiredCoupons.length})`} key="expired">
+            <Tabs.Tab title={`已过期 (${expiredCoupons.length})`} key="2">
               <div className="coupon-list">
                 {expiredCoupons.length > 0 ? (
-                  expiredCoupons.map(coupon => renderCouponCard(coupon))
+                  expiredCoupons.map(c => renderCouponCard(c))
                 ) : (
                   <Empty description="暂无已过期的优惠券" />
                 )}

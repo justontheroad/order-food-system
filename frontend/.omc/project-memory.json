@@ -154,6 +154,12 @@
   },
   "hotPaths": [
     {
+      "path": "src\\pages\\Coupon.jsx",
+      "accessCount": 7,
+      "lastAccessed": 1776180347995,
+      "type": "file"
+    },
+    {
       "path": "src\\pages\\OrderDetail.jsx",
       "accessCount": 5,
       "lastAccessed": 1775490143764,
@@ -163,6 +169,12 @@
       "path": "src\\pages\\Member.jsx",
       "accessCount": 3,
       "lastAccessed": 1775834631426,
+      "type": "file"
+    },
+    {
+      "path": "src\\services\\api.js",
+      "accessCount": 3,
+      "lastAccessed": 1776179694860,
       "type": "file"
     },
     {
@@ -184,21 +196,21 @@
       "type": "file"
     },
     {
-      "path": "src\\services\\api.js",
-      "accessCount": 1,
-      "lastAccessed": 1775490067373,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\Coupon.jsx",
-      "accessCount": 1,
-      "lastAccessed": 1775834642706,
-      "type": "file"
-    },
-    {
       "path": "src\\pages\\Menu.jsx",
       "accessCount": 1,
       "lastAccessed": 1775885380253,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1776179679643,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bdhckdvtc.output",
+      "accessCount": 1,
+      "lastAccessed": 1776179860918,
       "type": "file"
     }
   ],
