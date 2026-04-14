@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import { JSEncrypt } from 'jsencrypt'
 import adminApi from '../services/api'
 
 export default function Login() {
@@ -11,7 +12,19 @@ export default function Login() {
   const handleSubmit = async (values) => {
     setLoading(true)
     try {
-      const result = await adminApi.post('/login', values)
+      // 获取 RSA 公钥
+      const keyResult = await adminApi.get('/publicKey')
+      const publicKey = keyResult.data
+
+      // RSA 加密密码
+      const encrypt = new JSEncrypt()
+      encrypt.setPublicKey(publicKey)
+      const encryptedPassword = encrypt.encrypt(values.password)
+
+      const result = await adminApi.post('/login', {
+        username: values.username,
+        password: encryptedPassword
+      })
       if (result.code === 200) {
         localStorage.setItem('adminToken', result.data.token)
         message.success('登录成功')

@@ -146,16 +146,16 @@
   },
   "hotPaths": [
     {
+      "path": "backend",
+      "accessCount": 8,
+      "lastAccessed": 1776177665048,
+      "type": "directory"
+    },
+    {
       "path": "backend\\src\\main\\java\\com\\ordering\\config\\WebMvcConfig.java",
       "accessCount": 7,
       "lastAccessed": 1776095392868,
       "type": "file"
-    },
-    {
-      "path": "backend",
-      "accessCount": 6,
-      "lastAccessed": 1776094932783,
-      "type": "directory"
     },
     {
       "path": "frontend-admin\\src\\pages\\Products.jsx",
@@ -164,16 +164,16 @@
       "type": "directory"
     },
     {
+      "path": "backend\\src\\main\\resources\\application.yml",
+      "accessCount": 5,
+      "lastAccessed": 1776177723780,
+      "type": "directory"
+    },
+    {
       "path": "frontend-admin\\src\\pages\\Orders.jsx",
       "accessCount": 4,
       "lastAccessed": 1776094806273,
       "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\resources\\application.yml",
-      "accessCount": 4,
-      "lastAccessed": 1776095297744,
-      "type": "directory"
     },
     {
       "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminUploadController.java",
@@ -206,6 +206,12 @@
       "type": "directory"
     },
     {
+      "path": "frontend-admin\\src",
+      "accessCount": 3,
+      "lastAccessed": 1776177795311,
+      "type": "directory"
+    },
+    {
       "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bi3xs1u4r.output",
       "accessCount": 2,
       "lastAccessed": 1776094223537,
@@ -218,15 +224,21 @@
       "type": "file"
     },
     {
-      "path": "frontend-admin\\src",
-      "accessCount": 2,
-      "lastAccessed": 1776094968165,
-      "type": "directory"
-    },
-    {
       "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bd5z84mdp.output",
       "accessCount": 2,
       "lastAccessed": 1776095398814,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminController.java",
+      "accessCount": 2,
+      "lastAccessed": 1776177712856,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\Login.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776177810318,
       "type": "file"
     },
     {
@@ -312,6 +324,36 @@
       "accessCount": 1,
       "lastAccessed": 1776095382706,
       "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\AuthService.java",
+      "accessCount": 1,
+      "lastAccessed": 1776177668134,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\Admin.java",
+      "accessCount": 1,
+      "lastAccessed": 1776177679231,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\AdminMapper.java",
+      "accessCount": 1,
+      "lastAccessed": 1776177683338,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\resources\\db\\migration\\V3__init_admin.sql",
+      "accessCount": 1,
+      "lastAccessed": 1776177691448,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\AdminService.java",
+      "accessCount": 1,
+      "lastAccessed": 1776177701522,
+      "type": "file"
     }
   ],
   "userDirectives": []
