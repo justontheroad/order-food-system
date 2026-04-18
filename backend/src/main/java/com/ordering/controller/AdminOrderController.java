@@ -3,8 +3,11 @@ package com.ordering.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ordering.dto.ApiResponse;
+import com.ordering.dto.OrderDetailDTO;
 import com.ordering.dto.OrderListDTO;
 import com.ordering.entity.Order;
+import com.ordering.entity.OrderItem;
+import com.ordering.mapper.OrderItemMapper;
 import com.ordering.mapper.OrderMapper;
 import com.ordering.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class AdminOrderController {
 
     private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
     private final UserMapper userMapper;
 
     @GetMapping
@@ -76,9 +80,18 @@ public class AdminOrderController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<Order> getOrder(@PathVariable Long id) {
+    public ApiResponse<OrderDetailDTO> getOrder(@PathVariable Long id) {
         Order order = orderMapper.selectById(id);
-        return ApiResponse.success(order);
+        if (order == null) {
+            return ApiResponse.error(404, "订单不存在");
+        }
+        List<OrderItem> items = orderItemMapper.selectList(
+            new QueryWrapper<OrderItem>().eq("order_id", id)
+        );
+        OrderDetailDTO dto = new OrderDetailDTO();
+        dto.setOrder(order);
+        dto.setItems(items);
+        return ApiResponse.success(dto);
     }
 
     @PutMapping("/{id}/status")

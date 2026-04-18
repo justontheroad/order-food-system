@@ -125,6 +125,8 @@ export const orderApi = {
     api.get(`/orders/${id}`),
   cancel: (id) =>
     api.put(`/orders/${id}/cancel`),
+  pay: (id) =>
+    api.post('/payments/wechat', null, { params: { orderId: id } }),
 };
 
 // 文件上传 API

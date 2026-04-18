@@ -44,9 +44,22 @@ const OrderDetail = () => {
     },
   });
 
+  const payMutation = useMutation({
+    mutationFn: () => orderApi.pay(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['orders']);
+      queryClient.invalidateQueries(['order', id]);
+      showMessage('支付成功', true);
+    },
+    onError: (error) => {
+      showMessage(error.message || '支付失败');
+    },
+  });
+
   const order = orderData?.data?.order;
   const orderItems = orderData?.data?.items || [];
   const canCancel = (status) => status === 0 || status === 1;
+  const canPay = (status) => status === 0;
 
   if (isLoading) {
     return <div className="order-detail-page" style={{ padding: '12px' }}><Skeleton animated rows={10} /></div>;
@@ -97,7 +110,21 @@ const OrderDetail = () => {
       </Card>
 
       <div style={{ marginTop: '24px' }}>
-        {canCancel(order?.status) && <Button block color="danger" size="large" onClick={() => setCancelModalVisible(true)} loading={cancelMutation.isPending} style={{ marginBottom: '12px' }}>取消订单</Button>}
+        {canPay(order?.status) && (
+          <Button
+            block
+            color="primary"
+            size="large"
+            onClick={() => payMutation.mutate()}
+            loading={payMutation.isPending}
+            style={{ marginBottom: '12px', background: '#1677ff' }}
+          >
+            立即支付 ¥{order.payAmount?.toFixed(2)}
+          </Button>
+        )}
+        {canCancel(order?.status) && (
+          <Button block color="danger" size="large" onClick={() => setCancelModalVisible(true)} loading={cancelMutation.isPending} style={{ marginBottom: '12px' }}>取消订单</Button>
+        )}
         <Button block color="primary" size="large" onClick={() => navigate('/orders')}>返回订单列表</Button>
       </div>
 

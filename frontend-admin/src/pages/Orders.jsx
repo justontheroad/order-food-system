@@ -129,22 +129,51 @@ export default function Orders() {
         onClose={() => setDetailVisible(false)}
         width={400}
       >
-        {detailData && (
+        {detailData && detailData.order && (
           <Descriptions column={1}>
-            <Descriptions.Item label="订单号">{detailData.orderNo}</Descriptions.Item>
-            <Descriptions.Item label="会员">{detailData.member?.name}</Descriptions.Item>
-            <Descriptions.Item label="联系电话">{detailData.member?.phone}</Descriptions.Item>
-            <Descriptions.Item label="订单金额">¥{detailData.totalAmount}</Descriptions.Item>
+            <Descriptions.Item label="订单号">{detailData.order.orderNo}</Descriptions.Item>
+            <Descriptions.Item label="会员">{detailData.order.member?.name || '-'}</Descriptions.Item>
+            <Descriptions.Item label="联系电话">{detailData.order.member?.phone || '-'}</Descriptions.Item>
+            <Descriptions.Item label="订单金额">¥{detailData.order.totalAmount}</Descriptions.Item>
+            <Descriptions.Item label="优惠金额">¥{detailData.order.discountAmount || 0}</Descriptions.Item>
+            <Descriptions.Item label="实付金额">¥{detailData.order.payAmount}</Descriptions.Item>
             <Descriptions.Item label="状态">
-              <Tag color={statusMap[detailData.status]?.color}>{statusMap[detailData.status]?.text}</Tag>
+              <Tag color={statusMap[detailData.order.status]?.color}>{statusMap[detailData.order.status]?.text}</Tag>
             </Descriptions.Item>
-            <Descriptions.Item label="下单时间">{detailData.createdAt}</Descriptions.Item>
-            <Descriptions.Item label="商品">
-              {detailData.items?.map(item => (
-                <div key={item.id}>
-                  {item.name} x {item.quantity} - ¥{item.price}
+            <Descriptions.Item label="下单时间">{detailData.order.createdAt}</Descriptions.Item>
+            {detailData.order.remark && (
+              <Descriptions.Item label="备注">{detailData.order.remark || '-'}</Descriptions.Item>
+            )}
+            <Descriptions.Item label="商品信息" span={1}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {detailData.items?.map((item, index) => (
+                  <div key={item.id || index} style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '8px 12px',
+                    background: '#f5f5f5',
+                    borderRadius: '4px',
+                    fontSize: '13px'
+                  }}>
+                    <span style={{ fontWeight: 500 }}>{item.productName}</span>
+                    <span style={{ color: '#666' }}>x{item.quantity}</span>
+                    <span style={{ color: '#ff4d4f', fontWeight: 500 }}>¥{Number(item.price).toFixed(2)}</span>
+                  </div>
+                ))}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: '8px 12px',
+                  background: '#e6f7ff',
+                  borderRadius: '4px',
+                  fontWeight: 500
+                }}>
+                  <span>合计</span>
+                  <span>共{detailData.items?.reduce((sum, item) => sum + item.quantity, 0)}件</span>
+                  <span style={{ color: '#ff4d4f' }}>¥{detailData.items?.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0).toFixed(2)}</span>
                 </div>
-              ))}
+              </div>
             </Descriptions.Item>
           </Descriptions>
         )}

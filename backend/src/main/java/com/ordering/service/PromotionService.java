@@ -44,7 +44,7 @@ public interface PromotionService {
     DiscountPreviewDTO previewDiscount(Long userId, BigDecimal orderAmount, Long couponId);
 
     /**
-     * 使用优惠券
+     * 使用优惠券（通过 userId + couponId 查找并标记为已用）
      */
-    void useCoupon(Long userCouponId, Long orderId);
+    void useCoupon(Long userId, Long couponId, Long orderId);
 }

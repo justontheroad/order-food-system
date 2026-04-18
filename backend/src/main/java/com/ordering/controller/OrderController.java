@@ -75,7 +75,7 @@ public class OrderController {
 
         // 使用优惠券
         if (request.getCouponId() != null) {
-            promotionService.useCoupon(request.getCouponId(), created.getId());
+            promotionService.useCoupon(userId, request.getCouponId(), created.getId());
         }
 
         // 清空购物车

@@ -44,47 +44,54 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     @Transactional
     public boolean receiveCoupon(Long userId, Long couponId) {
-        Coupon coupon = couponMapper.selectById(couponId);
-        if (coupon == null || coupon.getStatus() != 1) {
-            return false;
-        }
-
-        LocalDate now = LocalDate.now();
-        if (now.isBefore(coupon.getStartTime()) || now.isAfter(coupon.getEndTime())) {
-            return false;
-        }
-
-        // 检查每人限领
-        if (coupon.getLimitPerUser() != null && coupon.getLimitPerUser() > 0) {
-            Long count = userCouponMapper.selectCount(new LambdaQueryWrapper<UserCoupon>()
-                    .eq(UserCoupon::getUserId, userId)
-                    .eq(UserCoupon::getCouponId, couponId));
-            if (count >= coupon.getLimitPerUser()) {
+        // 加锁防止并发领取
+        synchronized (getLockKey(userId, couponId)) {
+            Coupon coupon = couponMapper.selectById(couponId);
+            if (coupon == null || coupon.getStatus() != 1) {
                 return false;
             }
-        }
 
-        // 检查发放总量
-        if (coupon.getTotalCount() != null) {
-            if (coupon.getReceivedCount() == null) {
-                coupon.setReceivedCount(0);
-            }
-            if (coupon.getReceivedCount() >= coupon.getTotalCount()) {
+            LocalDate now = LocalDate.now();
+            if (now.isBefore(coupon.getStartTime()) || now.isAfter(coupon.getEndTime())) {
                 return false;
             }
-            coupon.setReceivedCount(coupon.getReceivedCount() + 1);
-            couponMapper.updateById(coupon);
+
+            // 再次检查是否已领取（并发情况下可能其他线程已领取）
+            if (coupon.getLimitPerUser() != null && coupon.getLimitPerUser() > 0) {
+                Long count = userCouponMapper.selectCount(new LambdaQueryWrapper<UserCoupon>()
+                        .eq(UserCoupon::getUserId, userId)
+                        .eq(UserCoupon::getCouponId, couponId));
+                if (count >= coupon.getLimitPerUser()) {
+                    return false;
+                }
+            }
+
+            // 检查发放总量
+            if (coupon.getTotalCount() != null) {
+                if (coupon.getReceivedCount() == null) {
+                    coupon.setReceivedCount(0);
+                }
+                if (coupon.getReceivedCount() >= coupon.getTotalCount()) {
+                    return false;
+                }
+                coupon.setReceivedCount(coupon.getReceivedCount() + 1);
+                couponMapper.updateById(coupon);
+            }
+
+            // 发放给用户
+            UserCoupon userCoupon = new UserCoupon();
+            userCoupon.setUserId(userId);
+            userCoupon.setCouponId(couponId);
+            userCoupon.setStatus(0); // 未使用
+            userCoupon.setReceivedAt(LocalDateTime.now());
+            userCouponMapper.insert(userCoupon);
+
+            return true;
         }
+    }
 
-        // 发放给用户
-        UserCoupon userCoupon = new UserCoupon();
-        userCoupon.setUserId(userId);
-        userCoupon.setCouponId(couponId);
-        userCoupon.setStatus(0); // 未使用
-        userCoupon.setReceivedAt(LocalDateTime.now());
-        userCouponMapper.insert(userCoupon);
-
-        return true;
+    private String getLockKey(Long userId, Long couponId) {
+        return "coupon:receive:" + userId + ":" + couponId;
     }
 
     @Override
@@ -178,13 +185,21 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     @Transactional
-    public void useCoupon(Long userCouponId, Long orderId) {
-        UserCoupon userCoupon = userCouponMapper.selectById(userCouponId);
-        if (userCoupon != null && userCoupon.getStatus() == 0) {
-            userCoupon.setStatus(1);
-            userCoupon.setUsedAt(LocalDateTime.now());
-            userCoupon.setOrderId(orderId);
-            userCouponMapper.updateById(userCoupon);
+    public void useCoupon(Long userId, Long couponId, Long orderId) {
+        // 加锁防止并发使用
+        synchronized (getLockKey(userId, couponId)) {
+            // 通过 userId + couponId 查找用户优惠券
+            UserCoupon userCoupon = userCouponMapper.selectOne(
+                new LambdaQueryWrapper<UserCoupon>()
+                    .eq(UserCoupon::getUserId, userId)
+                    .eq(UserCoupon::getCouponId, couponId)
+            );
+            if (userCoupon != null && userCoupon.getStatus() == 0) {
+                userCoupon.setStatus(1);
+                userCoupon.setUsedAt(LocalDateTime.now());
+                userCoupon.setOrderId(orderId);
+                userCouponMapper.updateById(userCoupon);
+            }
         }
     }
 
