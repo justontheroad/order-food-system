@@ -43,17 +43,22 @@ public class OrderController {
             return ApiResponse.error(400, "购物车为空");
         }
 
-        // 计算优惠
+        // 由后端计算优惠金额，不信任前端数据
         BigDecimal totalAmount = request.getTotalAmount();
         BigDecimal discountAmount = BigDecimal.ZERO;
+        BigDecimal payAmount = totalAmount;
+
         if (request.getCouponId() != null) {
-            discountAmount = promotionService.calculateDiscount(userId, totalAmount);
+            // 调用后端预览接口获取实际优惠金额
+            var preview = promotionService.previewDiscount(userId, totalAmount, request.getCouponId());
+            discountAmount = preview.getDiscountAmount();
+            payAmount = preview.getPayAmount();
         }
 
         Order order = new Order();
         order.setTotalAmount(totalAmount);
         order.setDiscountAmount(discountAmount);
-        order.setPayAmount(totalAmount.subtract(discountAmount));
+        order.setPayAmount(payAmount);
         order.setRemark(request.getRemark());
 
         // 将购物车商品转换为订单项

@@ -155,20 +155,20 @@
   "hotPaths": [
     {
       "path": "src\\pages\\Checkout.jsx",
-      "accessCount": 16,
-      "lastAccessed": 1776522209145,
+      "accessCount": 25,
+      "lastAccessed": 1776526102304,
       "type": "file"
     },
     {
       "path": "src\\pages\\Coupon.jsx",
-      "accessCount": 7,
-      "lastAccessed": 1776180347995,
+      "accessCount": 15,
+      "lastAccessed": 1776525272653,
       "type": "file"
     },
     {
       "path": "src\\services\\api.js",
-      "accessCount": 7,
-      "lastAccessed": 1776180727066,
+      "accessCount": 9,
+      "lastAccessed": 1776524794854,
       "type": "file"
     },
     {

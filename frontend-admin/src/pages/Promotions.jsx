@@ -43,6 +43,7 @@ export default function Promotions() {
       ...record,
       type: record.type === 1 ? 'reduce' : 'discount',
       value: record.type === 1 ? record.discountAmount : record.discountRate,
+      maxDiscountAmount: record.maxDiscountAmount,
       dateRange: record.startTime && record.endTime
         ? [dayjs(record.startTime), dayjs(record.endTime)]
         : null
@@ -66,13 +67,24 @@ export default function Promotions() {
       const data = {
         name: values.name,
         type: values.type === 'reduce' ? 1 : 2,
-        minAmount: values.minAmount,
+        minAmount: values.minAmount || 0,
         discountAmount: values.type === 'reduce' ? values.value : null,
         discountRate: values.type === 'discount' ? values.value : null,
+        maxDiscountAmount: values.maxDiscountAmount || null,
         totalCount: values.totalCount,
         startTime: values.dateRange?.[0].format('YYYY-MM-DD'),
         endTime: values.dateRange?.[1].format('YYYY-MM-DD'),
         status: 1
+      }
+
+      // 风控检查
+      if (values.type === 'reduce' && values.value <= 0) {
+        message.error('满减金额必须大于0')
+        return
+      }
+      if (values.minAmount < 0) {
+        message.error('门槛金额不能为负数')
+        return
       }
 
       if (editingRecord) {
@@ -99,7 +111,8 @@ export default function Promotions() {
       render: (v) => v === 1 ? <Tag color="green">满减</Tag> : <Tag color="blue">折扣</Tag>
     },
     { title: '门槛', dataIndex: 'minAmount', key: 'minAmount', render: (v) => v ? `¥${v}` : '无门槛' },
-    { title: '优惠', dataIndex: 'discountAmount', key: 'discountAmount', render: (v, r) => r.type === 1 ? `¥${v}` : `${r.discountRate}折` },
+    { title: '优惠', dataIndex: 'discountAmount', key: 'discountAmount', render: (v, r) => r.type === 1 ? `¥${v}` : `${r.discountRate / 10}折` },
+    { title: '最大优惠', dataIndex: 'maxDiscountAmount', key: 'maxDiscountAmount', render: (v) => v ? `¥${v}` : '-' },
     { title: '发放数量', dataIndex: 'totalCount', key: 'totalCount' },
     { title: '已领取', dataIndex: 'receivedCount', key: 'receivedCount' },
     { title: '有效期', dataIndex: 'endTime', key: 'dateRange', render: (_, r) => `${r.startTime} ~ ${r.endTime}` },
@@ -144,25 +157,91 @@ export default function Promotions() {
         width={500}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="优惠券名称" rules={[{ required: true }]}>
-            <Input placeholder="请输入优惠券名称" />
+          <Form.Item name="name" label="优惠券名称" rules={[{ required: true, message: '请输入优惠券名称' }]}>
+            <Input placeholder="请输入优惠券名称" maxLength={20} showCount />
           </Form.Item>
-          <Form.Item name="type" label="类型" rules={[{ required: true }]}>
-            <Select>
-              <Select.Option value="discount">折扣</Select.Option>
+          <Form.Item name="type" label="类型" rules={[{ required: true, message: '请选择类型' }]}>
+            <Select placeholder="请选择类型">
               <Select.Option value="reduce">满减</Select.Option>
+              <Select.Option value="discount">折扣</Select.Option>
             </Select>
           </Form.Item>
-          <Form.Item name="minAmount" label="使用门槛">
-            <InputNumber min={0} placeholder="0 表示无门槛" style={{ width: '100%' }} />
+          <Form.Item
+            noStyle
+            shouldUpdate={(prev, curr) => prev.type !== curr.type}
+          >
+            {({ getFieldValue }) => {
+              const type = getFieldValue('type')
+              if (type === 'reduce') {
+                return (
+                  <Form.Item
+                    name="value"
+                    label="优惠金额"
+                    rules={[
+                      { required: true, message: '请输入优惠金额' },
+                      { type: 'number', min: 0.01, message: '优惠金额必须大于0' }
+                    ]}
+                  >
+                    <InputNumber
+                      min={0.01}
+                      precision={2}
+                      placeholder="请输入优惠金额"
+                      style={{ width: '100%' }}
+                      formatter={value => `¥ ${value}`}
+                      parser={value => value.replace(/¥\s?/g, '')}
+                    />
+                  </Form.Item>
+                )
+              } else if (type === 'discount') {
+                return (
+                  <Form.Item
+                    name="value"
+                    label="折扣率"
+                    rules={[
+                      { required: true, message: '请选择折扣率' }
+                    ]}
+                  >
+                    <Select placeholder="请选择折扣率">
+                      <Select.Option value={95}>9.5折</Select.Option>
+                      <Select.Option value={90}>9折</Select.Option>
+                      <Select.Option value={85}>8.5折</Select.Option>
+                      <Select.Option value={80}>8折</Select.Option>
+                      <Select.Option value={75}>7.5折</Select.Option>
+                      <Select.Option value={70}>7折</Select.Option>
+                      <Select.Option value={65}>6.5折</Select.Option>
+                      <Select.Option value={60}>6折</Select.Option>
+                      <Select.Option value={55}>5.5折</Select.Option>
+                      <Select.Option value={50}>5折</Select.Option>
+                      <Select.Option value={45}>4.5折</Select.Option>
+                      <Select.Option value={40}>4折</Select.Option>
+                      <Select.Option value={35}>3.5折</Select.Option>
+                      <Select.Option value={30}>3折</Select.Option>
+                      <Select.Option value={25}>2.5折</Select.Option>
+                      <Select.Option value={20}>2折</Select.Option>
+                      <Select.Option value={15}>1.5折</Select.Option>
+                      <Select.Option value={10}>1折</Select.Option>
+                      <Select.Option value={5}>0.5折</Select.Option>
+                    </Select>
+                  </Form.Item>
+                )
+              }
+              return null
+            }}
           </Form.Item>
-          <Form.Item name="value" label="优惠值" rules={[{ required: true }]}>
-            <InputNumber min={0} style={{ width: '100%' }} />
+          <Form.Item name="minAmount" label="使用门槛（满X元可用）">
+            <InputNumber min={0} precision={2} placeholder="0 表示无门槛" style={{ width: '100%' }} />
           </Form.Item>
-          <Form.Item name="totalCount" label="发放数量" rules={[{ required: true }]}>
-            <InputNumber min={1} style={{ width: '100%' }} />
+          <Form.Item
+            name="maxDiscountAmount"
+            label="最大优惠金额（折扣券专用）"
+            tooltip="仅折扣券可用，限制最高优惠金额"
+          >
+            <InputNumber min={0} precision={2} placeholder="不限制则留空" style={{ width: '100%' }} />
           </Form.Item>
-          <Form.Item name="dateRange" label="有效期" rules={[{ required: true }]}>
+          <Form.Item name="totalCount" label="发放数量" rules={[{ required: true, message: '请输入发放数量' }]}>
+            <InputNumber min={1} precision={0} placeholder="请输入发放数量" style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item name="dateRange" label="有效期" rules={[{ required: true, message: '请选择有效期' }]}>
             <RangePicker style={{ width: '100%' }} />
           </Form.Item>
         </Form>

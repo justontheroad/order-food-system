@@ -172,6 +172,7 @@ export const couponApi = {
   getAvailable: () => api.get('/promotions/coupons'),
   receive: (couponId) => api.post(`/promotions/coupons/${couponId}/receive`),
   getMyCoupons: () => api.get('/promotions/user/coupons'),
+  preview: (orderAmount, couponId) => api.post('/promotions/preview', null, { params: { orderAmount, couponId } }),
 };
 
 // 支付 API

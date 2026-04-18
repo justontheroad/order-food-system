@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, Input, Card, Button, Radio, Empty, Modal } from 'antd-mobile';
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Card, Button, Radio, Empty } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { orderApi, cartApi, couponApi } from '../services/api';
@@ -12,12 +12,13 @@ const Checkout = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [couponModalVisible, setCouponModalVisible] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
+  const [previewData, setPreviewData] = useState(null);
 
   // 支付方式
   const [paymentMethod, setPaymentMethod] = useState('wechat');
 
   // 获取购物车数据
-  const { data: cartData, isLoading: cartLoading } = useQuery({
+  const { data: cartData } = useQuery({
     queryKey: ['cart'],
     queryFn: () => cartApi.getList(),
   });
@@ -30,31 +31,36 @@ const Checkout = () => {
 
   const items = cartData?.data || [];
   const myCoupons = myCouponsData?.data || [];
-
-  // 调试日志
-  console.log('Checkout 调试:', {
-    myCoupons,
-    myCouponsLength: myCoupons.length,
-  });
-
   const originalTotal = items.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 0), 0);
 
   // 可用优惠券（未使用、未过期、满足门槛）
   const availableCoupons = myCoupons.filter(c => {
-    // status: 0-未使用 1-已使用 2-已过期
     if (c.status != 0) return false;
     if (c.expireTime && new Date(c.expireTime) < new Date()) return false;
     if (c.minAmount && originalTotal < Number(c.minAmount)) return false;
     return true;
   });
 
-  // 计算优惠金额
-  const discountAmount = selectedCoupon
-    ? (selectedCoupon.type == 1
-      ? Number(selectedCoupon.discountAmount)
-      : originalTotal * Number(selectedCoupon.discountRate) / 100)
-    : 0;
-  const totalPrice = Math.max(0, originalTotal - discountAmount);
+  // 调用后端预览接口获取优惠金额
+  useEffect(() => {
+    const fetchPreview = async () => {
+      if (originalTotal > 0) {
+        try {
+          // selectedCoupon.id 是 UserCoupon id, selectedCoupon.couponId 才是 Coupon id
+          const res = await couponApi.preview(originalTotal, selectedCoupon?.couponId || null);
+          if (res.code === 200) {
+            setPreviewData(res.data);
+          }
+        } catch (error) {
+          console.error('预览失败:', error);
+        }
+      }
+    };
+    fetchPreview();
+  }, [originalTotal, selectedCoupon]);
+
+  const discountAmount = previewData?.discountAmount || 0;
+  const totalPrice = previewData?.payAmount || originalTotal;
 
   const showMessage = (msg, success = false) => {
     setIsSuccess(success);
@@ -71,12 +77,13 @@ const Checkout = () => {
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
+      // 使用后端计算的实际金额
       const orderData = {
         totalAmount: originalTotal,
         discountAmount: discountAmount,
         payAmount: totalPrice,
         remark: values.remark || '',
-        couponId: selectedCoupon?.id || null,
+        couponId: selectedCoupon?.couponId || null,  // 使用 couponId 而非 id
       };
 
       createOrderMutation.mutate(orderData, {
@@ -148,7 +155,7 @@ const Checkout = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>优惠券</span>
           {selectedCoupon ? (
-            <span style={{ color: '#ff4300' }}>-¥{discountAmount.toFixed(2)}</span>
+            <span style={{ color: '#ff4300' }}>-¥{Number(discountAmount).toFixed(2)}</span>
           ) : availableCoupons.length > 0 ? (
             <span style={{ color: '#999' }}>有{availableCoupons.length}张可用 &gt;</span>
           ) : (
@@ -185,17 +192,17 @@ const Checkout = () => {
         {discountAmount > 0 && (
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: '#ff4300' }}>
             <span>优惠券</span>
-            <span>-¥{discountAmount.toFixed(2)}</span>
+            <span>-¥{Number(discountAmount).toFixed(2)}</span>
           </div>
         )}
         <div style={{ borderTop: '1px solid #eee', marginTop: '8px', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
           <span>实付金额</span>
-          <span style={{ color: '#ff4300', fontSize: '20px' }}>¥{totalPrice.toFixed(2)}</span>
+          <span style={{ color: '#ff4300', fontSize: '20px' }}>¥{Number(totalPrice).toFixed(2)}</span>
         </div>
       </Card>
 
       <Button block color="primary" size="large" onClick={handleSubmit} loading={createOrderMutation.isPending}>
-        提交订单 ¥{totalPrice.toFixed(2)}
+        提交订单 ¥{Number(totalPrice).toFixed(2)}
       </Button>
 
       {/* 优惠券选择弹窗 - 自定义实现 */}
@@ -212,10 +219,7 @@ const Checkout = () => {
                   const isSelected = selectedCoupon?.id === coupon.id;
                   const discountValue = coupon.type == 1
                     ? `满${Number(coupon.minAmount)}减${Number(coupon.discountAmount)}`
-                    : `${Number(coupon.discountRate)}折`;
-                  const discountAmount2 = coupon.type == 1
-                    ? Number(coupon.discountAmount)
-                    : (originalTotal * Number(coupon.discountRate) / 100);
+                    : `${Number(coupon.discountRate) / 10}折`;
                   return (
                     <div
                       key={coupon.id}
@@ -241,7 +245,7 @@ const Checkout = () => {
                         padding: '12px 8px',
                       }}>
                         <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                          {coupon.type == 1 ? `¥${Number(coupon.discountAmount)}` : `${Number(coupon.discountRate)}折`}
+                          {coupon.type == 1 ? `¥${Number(coupon.discountAmount)}` : `${Number(coupon.discountRate) / 10}折`}
                         </div>
                       </div>
                       <div style={{ flex: 1, padding: '12px' }}>

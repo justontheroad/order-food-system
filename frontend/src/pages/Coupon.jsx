@@ -53,7 +53,9 @@ const Coupon = () => {
 
   // 渲染优惠券卡片
   const renderCouponCard = (coupon, showReceiveBtn = false) => {
-    const isExpired = coupon.expireTime && new Date(coupon.expireTime) < new Date();
+    // 兼容 endTime (可领取) 和 expireTime (我的优惠券)
+    const effectiveExpireTime = coupon.expireTime || coupon.endTime;
+    const isExpired = effectiveExpireTime && new Date(effectiveExpireTime) < new Date();
     const isUsed = coupon.status === 1;
 
     return (
@@ -62,14 +64,14 @@ const Coupon = () => {
           <div className="coupon-left">
             <div className="coupon-amount">
               <span className="amount-symbol">¥</span>
-              <span className="amount-value">{coupon.type === 1 ? coupon.discountAmount : coupon.discountRate + '折'}</span>
+              <span className="amount-value">{coupon.type === 1 ? coupon.discountAmount : coupon.discountRate / 10 + '折'}</span>
             </div>
             <div className="coupon-condition">满{coupon.minAmount}可用</div>
           </div>
           <div className="coupon-right">
             <div className="coupon-name">{coupon.name}</div>
             <div className="coupon-time">
-              {coupon.expireTime ? `有效期至 ${coupon.expireTime.split('T')[0]}` : '长期有效'}
+              {effectiveExpireTime ? `有效期至 ${effectiveExpireTime.split('T')[0]}` : '长期有效'}
             </div>
             {showReceiveBtn && receivedCouponIds.has(coupon.id) && (
               <Tag color="success">已领取</Tag>

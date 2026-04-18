@@ -1,6 +1,7 @@
 package com.ordering.controller;
 
 import com.ordering.dto.ApiResponse;
+import com.ordering.dto.DiscountPreviewDTO;
 import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
 import com.ordering.service.PromotionService;
@@ -54,7 +55,7 @@ public class PromotionController {
     }
 
     /**
-     * 计算订单优惠
+     * 计算订单优惠（自动选择最优优惠券）
      */
     @PostMapping("/calculate")
     public ApiResponse<BigDecimal> calculateDiscount(
@@ -62,5 +63,17 @@ public class PromotionController {
             @AuthenticationPrincipal Long userId) {
         BigDecimal discount = promotionService.calculateDiscount(userId, orderAmount);
         return ApiResponse.success(discount);
+    }
+
+    /**
+     * 预览指定优惠券的优惠金额
+     */
+    @PostMapping("/preview")
+    public ApiResponse<DiscountPreviewDTO> previewDiscount(
+            @RequestParam BigDecimal orderAmount,
+            @RequestParam(required = false) Long couponId,
+            @AuthenticationPrincipal Long userId) {
+        DiscountPreviewDTO preview = promotionService.previewDiscount(userId, orderAmount, couponId);
+        return ApiResponse.success(preview);
     }
 }

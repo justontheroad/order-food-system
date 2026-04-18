@@ -1,6 +1,7 @@
 package com.ordering.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ordering.dto.DiscountPreviewDTO;
 import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
 import com.ordering.entity.UserCoupon;
@@ -185,5 +186,85 @@ public class PromotionServiceImpl implements PromotionService {
             userCoupon.setOrderId(orderId);
             userCouponMapper.updateById(userCoupon);
         }
+    }
+
+    @Override
+    public DiscountPreviewDTO previewDiscount(Long userId, BigDecimal orderAmount, Long couponId) {
+        DiscountPreviewDTO preview = new DiscountPreviewDTO();
+        preview.setTotalAmount(orderAmount);
+
+        if (couponId == null) {
+            preview.setDiscountAmount(BigDecimal.ZERO);
+            preview.setPayAmount(orderAmount);
+            preview.setCouponId(null);
+            preview.setCouponName(null);
+            return preview;
+        }
+
+        // 获取优惠券信息
+        Coupon coupon = couponMapper.selectById(couponId);
+        if (coupon == null) {
+            preview.setDiscountAmount(BigDecimal.ZERO);
+            preview.setPayAmount(orderAmount);
+            preview.setCouponId(couponId);
+            preview.setCouponName("优惠券不存在");
+            return preview;
+        }
+
+        // 获取用户优惠券（通过 userId + couponId 查找）
+        UserCoupon userCoupon = userCouponMapper.selectOne(
+            new LambdaQueryWrapper<UserCoupon>()
+                .eq(UserCoupon::getUserId, userId)
+                .eq(UserCoupon::getCouponId, couponId)
+        );
+        if (userCoupon == null || userCoupon.getStatus() != 0) {
+            preview.setDiscountAmount(BigDecimal.ZERO);
+            preview.setPayAmount(orderAmount);
+            preview.setCouponId(couponId);
+            preview.setCouponName(coupon.getName() + "(未领取或已使用)");
+            return preview;
+        }
+
+        // 检查是否满足门槛
+        if (coupon.getMinAmount() != null && orderAmount.compareTo(coupon.getMinAmount()) < 0) {
+            preview.setDiscountAmount(BigDecimal.ZERO);
+            preview.setPayAmount(orderAmount);
+            preview.setCouponId(couponId);
+            preview.setCouponName(coupon.getName() + "(未满足门槛)");
+            return preview;
+        }
+
+        // 计算优惠金额
+        BigDecimal discountAmount = calculateCouponDiscount(orderAmount, coupon);
+        BigDecimal payAmount = orderAmount.subtract(discountAmount).max(BigDecimal.ZERO);
+
+        preview.setDiscountAmount(discountAmount);
+        preview.setPayAmount(payAmount);
+        preview.setCouponId(couponId);
+        preview.setCouponName(coupon.getName());
+        return preview;
+    }
+
+    /**
+     * 计算单张优惠券的优惠金额
+     */
+    private BigDecimal calculateCouponDiscount(BigDecimal orderAmount, Coupon coupon) {
+        if (coupon.getType() == 1) {
+            // 满减券
+            return coupon.getDiscountAmount() != null ? coupon.getDiscountAmount() : BigDecimal.ZERO;
+        } else if (coupon.getType() == 2) {
+            // 折扣券: 金额 × (折扣率/100)
+            if (coupon.getDiscountRate() == null) {
+                return BigDecimal.ZERO;
+            }
+            BigDecimal discount = orderAmount.multiply(BigDecimal.valueOf(coupon.getDiscountRate().longValue()))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            // 限制最大优惠
+            if (coupon.getMaxDiscountAmount() != null && discount.compareTo(coupon.getMaxDiscountAmount()) > 0) {
+                discount = coupon.getMaxDiscountAmount();
+            }
+            return discount;
+        }
+        return BigDecimal.ZERO;
     }
 }
