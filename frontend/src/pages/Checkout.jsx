@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Input, Card, Button, Radio, Empty } from 'antd-mobile';
+import { Form, Input, Card, Button, Radio, Empty, Modal } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { orderApi, cartApi } from '../services/api';
+import { orderApi, cartApi, couponApi } from '../services/api';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -10,6 +10,8 @@ const Checkout = () => {
   const [form] = Form.useForm();
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [couponModalVisible, setCouponModalVisible] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
 
   // 支付方式
   const [paymentMethod, setPaymentMethod] = useState('wechat');
@@ -20,9 +22,38 @@ const Checkout = () => {
     queryFn: () => cartApi.getList(),
   });
 
+  // 获取用户优惠券
+  const { data: myCouponsData } = useQuery({
+    queryKey: ['myCoupons'],
+    queryFn: () => couponApi.getMyCoupons(),
+  });
+
   const items = cartData?.data || [];
-  const originalTotal = items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0);
-  const discountAmount = 0;
+  const myCoupons = myCouponsData?.data || [];
+
+  // 调试日志
+  console.log('Checkout 调试:', {
+    myCoupons,
+    myCouponsLength: myCoupons.length,
+  });
+
+  const originalTotal = items.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 0), 0);
+
+  // 可用优惠券（未使用、未过期、满足门槛）
+  const availableCoupons = myCoupons.filter(c => {
+    // status: 0-未使用 1-已使用 2-已过期
+    if (c.status != 0) return false;
+    if (c.expireTime && new Date(c.expireTime) < new Date()) return false;
+    if (c.minAmount && originalTotal < Number(c.minAmount)) return false;
+    return true;
+  });
+
+  // 计算优惠金额
+  const discountAmount = selectedCoupon
+    ? (selectedCoupon.type == 1
+      ? Number(selectedCoupon.discountAmount)
+      : originalTotal * Number(selectedCoupon.discountRate) / 100)
+    : 0;
   const totalPrice = Math.max(0, originalTotal - discountAmount);
 
   const showMessage = (msg, success = false) => {
@@ -45,6 +76,7 @@ const Checkout = () => {
         discountAmount: discountAmount,
         payAmount: totalPrice,
         remark: values.remark || '',
+        couponId: selectedCoupon?.id || null,
       };
 
       createOrderMutation.mutate(orderData, {
@@ -52,6 +84,7 @@ const Checkout = () => {
           cartApi.clear();
           queryClient.invalidateQueries(['cart']);
           queryClient.invalidateQueries(['orders']);
+          queryClient.invalidateQueries(['myCoupons']);
           if (paymentMethod === 'wechat') {
             showMessage('支付成功', true);
           } else {
@@ -66,6 +99,11 @@ const Checkout = () => {
     } catch (error) {
       console.error('表单验证失败:', error);
     }
+  };
+
+  const selectCoupon = (coupon) => {
+    setSelectedCoupon(coupon);
+    setCouponModalVisible(false);
   };
 
   if (items.length === 0) {
@@ -106,10 +144,16 @@ const Checkout = () => {
         ))}
       </Card>
 
-      <Card style={{ marginBottom: '16px' }}>
+      <Card style={{ marginBottom: '16px' }} onClick={() => setCouponModalVisible(true)}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>优惠券</span>
-          <span style={{ color: '#999' }}>暂无可用 &gt;</span>
+          {selectedCoupon ? (
+            <span style={{ color: '#ff4300' }}>-¥{discountAmount.toFixed(2)}</span>
+          ) : availableCoupons.length > 0 ? (
+            <span style={{ color: '#999' }}>有{availableCoupons.length}张可用 &gt;</span>
+          ) : (
+            <span style={{ color: '#999' }}>暂无可用 &gt;</span>
+          )}
         </div>
       </Card>
 
@@ -138,6 +182,12 @@ const Checkout = () => {
           <span>订单金额</span>
           <span>¥{originalTotal.toFixed(2)}</span>
         </div>
+        {discountAmount > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: '#ff4300' }}>
+            <span>优惠券</span>
+            <span>-¥{discountAmount.toFixed(2)}</span>
+          </div>
+        )}
         <div style={{ borderTop: '1px solid #eee', marginTop: '8px', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
           <span>实付金额</span>
           <span style={{ color: '#ff4300', fontSize: '20px' }}>¥{totalPrice.toFixed(2)}</span>
@@ -147,6 +197,124 @@ const Checkout = () => {
       <Button block color="primary" size="large" onClick={handleSubmit} loading={createOrderMutation.isPending}>
         提交订单 ¥{totalPrice.toFixed(2)}
       </Button>
+
+      {/* 优惠券选择弹窗 - 自定义实现 */}
+      {couponModalVisible && (
+        <div className="coupon-modal-overlay" onClick={() => setCouponModalVisible(false)}>
+          <div className="coupon-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="coupon-modal-header">
+              <span style={{ fontWeight: 'bold', fontSize: '16px' }}>选择优惠券</span>
+              <span onClick={() => setCouponModalVisible(false)} style={{ cursor: 'pointer', fontSize: '20px' }}>×</span>
+            </div>
+            <div className="coupon-modal-body">
+              {availableCoupons.length > 0 ? (
+                availableCoupons.map((coupon) => {
+                  const isSelected = selectedCoupon?.id === coupon.id;
+                  const discountValue = coupon.type == 1
+                    ? `满${Number(coupon.minAmount)}减${Number(coupon.discountAmount)}`
+                    : `${Number(coupon.discountRate)}折`;
+                  const discountAmount2 = coupon.type == 1
+                    ? Number(coupon.discountAmount)
+                    : (originalTotal * Number(coupon.discountRate) / 100);
+                  return (
+                    <div
+                      key={coupon.id}
+                      onClick={() => selectCoupon(coupon)}
+                      style={{
+                        display: 'flex',
+                        marginBottom: '12px',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        border: isSelected ? '2px solid #ff4300' : '1px solid #e0e0e0',
+                        background: isSelected ? '#fff5f0' : '#fff',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div style={{
+                        width: '80px',
+                        background: 'linear-gradient(135deg, #ff6b35 0%, #ff4300 100%)',
+                        color: '#fff',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '12px 8px',
+                      }}>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                          {coupon.type == 1 ? `¥${Number(coupon.discountAmount)}` : `${Number(coupon.discountRate)}折`}
+                        </div>
+                      </div>
+                      <div style={{ flex: 1, padding: '12px' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{coupon.name}</div>
+                        <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>{discountValue}</div>
+                        <div style={{ fontSize: '11px', color: '#999' }}>
+                          {coupon.expireTime ? `有效期至 ${coupon.expireTime.split('T')[0]}` : '长期有效'}
+                        </div>
+                      </div>
+                      {isSelected && (
+                        <div style={{ display: 'flex', alignItems: 'center', paddingRight: '12px', color: '#ff4300', fontSize: '18px' }}>✓</div>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#999' }}>暂无可用优惠券</div>
+              )}
+            </div>
+            <div className="coupon-modal-footer">
+              <div
+                onClick={() => { setSelectedCoupon(null); setCouponModalVisible(false); }}
+                style={{
+                  textAlign: 'center',
+                  padding: '14px',
+                  color: '#666',
+                  cursor: 'pointer',
+                  borderTop: '1px solid #eee',
+                }}
+              >
+                不使用优惠券
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .coupon-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+          display: flex;
+          align-items: flex-end;
+        }
+        .coupon-modal-content {
+          width: 100%;
+          background: #fff;
+          border-radius: 16px 16px 0 0;
+          max-height: 70vh;
+          display: flex;
+          flex-direction: column;
+        }
+        .coupon-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px;
+          border-bottom: 1px solid #eee;
+        }
+        .coupon-modal-body {
+          flex: 1;
+          overflow-y: auto;
+          padding: 12px;
+        }
+        .coupon-modal-footer {
+          padding-bottom: env(safe-area-inset-bottom);
+        }
+      `}</style>
     </div>
   );
 };

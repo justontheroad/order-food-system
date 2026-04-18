@@ -8,10 +8,12 @@ import com.ordering.entity.Order;
 import com.ordering.entity.OrderItem;
 import com.ordering.service.CartService;
 import com.ordering.service.OrderService;
+import com.ordering.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final CartService cartService;
+    private final PromotionService promotionService;
 
     /**
      * 创建订单
@@ -40,10 +43,17 @@ public class OrderController {
             return ApiResponse.error(400, "购物车为空");
         }
 
+        // 计算优惠
+        BigDecimal totalAmount = request.getTotalAmount();
+        BigDecimal discountAmount = BigDecimal.ZERO;
+        if (request.getCouponId() != null) {
+            discountAmount = promotionService.calculateDiscount(userId, totalAmount);
+        }
+
         Order order = new Order();
-        order.setTotalAmount(request.getTotalAmount());
-        order.setDiscountAmount(request.getDiscountAmount());
-        order.setPayAmount(request.getPayAmount());
+        order.setTotalAmount(totalAmount);
+        order.setDiscountAmount(discountAmount);
+        order.setPayAmount(totalAmount.subtract(discountAmount));
         order.setRemark(request.getRemark());
 
         // 将购物车商品转换为订单项
@@ -57,6 +67,11 @@ public class OrderController {
         }).collect(Collectors.toList());
 
         Order created = orderService.createOrder(userId, order, orderItems);
+
+        // 使用优惠券
+        if (request.getCouponId() != null) {
+            promotionService.useCoupon(request.getCouponId(), created.getId());
+        }
 
         // 清空购物车
         cartService.clearCart(userId);

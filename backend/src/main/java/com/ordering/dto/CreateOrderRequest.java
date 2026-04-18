@@ -29,4 +29,9 @@ public class CreateOrderRequest {
      * 备注
      */
     private String remark;
+
+    /**
+     * 使用优惠券ID
+     */
+    private Long couponId;
 }

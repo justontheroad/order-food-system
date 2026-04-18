@@ -6,8 +6,10 @@
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
 BACKEND_DIR="$PROJECT_ROOT/backend"
 FRONTEND_DIR="$PROJECT_ROOT/frontend"
+FRONTEND_ADMIN_DIR="$PROJECT_ROOT/frontend-admin"
 BACKEND_PORT=8080
 FRONTEND_PORT=3000
+FRONTEND_ADMIN_PORT=3001
 LOG_DIR="$PROJECT_ROOT/logs"
 
 # 颜色定义
@@ -27,7 +29,7 @@ show_help() {
     echo "用法: ./manage.sh [命令]"
     echo ""
     echo "命令:"
-    echo "  start    - 启动所有服务 (后端+前端)"
+    echo "  start    - 启动所有服务 (后端+前端+管理端)"
     echo "  stop     - 停止所有服务"
     echo "  restart  - 重启所有服务"
     echo "  status   - 查看服务状态"
@@ -109,6 +111,21 @@ start_service() {
         fi
     fi
 
+    # 检查管理端端口
+    if check_port $FRONTEND_ADMIN_PORT; then
+        echo -e "${YELLOW}[警告] 端口 $FRONTEND_ADMIN_PORT 已被占用${NC}"
+        pid=$(get_port_pid $FRONTEND_ADMIN_PORT)
+        echo "[提示] 占用进程 PID: $pid"
+        read -p "是否终止占用进程并继续? [y/N]: " choice
+        if [[ "$choice" =~ ^[Yy]$ ]]; then
+            kill -9 $pid 2>/dev/null
+            sleep 2
+        else
+            echo "[取消] 启动中止"
+            exit 1
+        fi
+    fi
+
     # 启动后端
     echo "[启动] 后端服务..."
     cd "$BACKEND_DIR"
@@ -143,11 +160,23 @@ start_service() {
     echo "[等待] 前端服务启动中... (约10秒)"
     sleep 10
 
+    # 启动管理端
+    echo "[启动] 管理端服务..."
+    cd "$FRONTEND_ADMIN_DIR"
+    nohup npm run dev > "$LOG_DIR/frontend-admin.log" 2>&1 &
+    FRONTEND_ADMIN_PID=$!
+    echo "管理端 PID: $FRONTEND_ADMIN_PID"
+
+    # 等待管理端启动
+    echo "[等待] 管理端服务启动中... (约10秒)"
+    sleep 10
+
     echo "========================================"
     echo -e "${GREEN}所有服务已启动!${NC}"
     echo "========================================"
     echo "后端地址: http://localhost:$BACKEND_PORT"
     echo "前端地址: http://localhost:$FRONTEND_PORT"
+    echo "管理端地址: http://localhost:$FRONTEND_ADMIN_PORT"
     echo "Druid监控: http://localhost:$BACKEND_PORT/druid (admin/admin123)"
     echo "日志位置: $LOG_DIR"
     echo "========================================"
@@ -155,6 +184,7 @@ start_service() {
     # 保存 PID
     echo "$BACKEND_PID" > "$LOG_DIR/backend.pid"
     echo "$FRONTEND_PID" > "$LOG_DIR/frontend.pid"
+    echo "$FRONTEND_ADMIN_PID" > "$LOG_DIR/frontend-admin.pid"
 }
 
 # 停止服务
@@ -197,6 +227,24 @@ stop_service() {
         pid=$(get_port_pid $FRONTEND_PORT)
         kill -9 $pid 2>/dev/null
         echo "已终止端口进程 PID: $pid"
+    fi
+
+    # 停止管理端
+    echo "[停止] 管理端服务..."
+    if [ -f "$LOG_DIR/frontend-admin.pid" ]; then
+        pid=$(cat "$LOG_DIR/frontend-admin.pid")
+        if kill -0 $pid 2>/dev/null; then
+            kill $pid 2>/dev/null
+            echo "已终止 PID: $pid"
+        fi
+        rm "$LOG_DIR/frontend-admin.pid"
+    fi
+
+    # 通过端口停止管理端
+    if check_port $FRONTEND_ADMIN_PORT; then
+        pid=$(get_port_pid $FRONTEND_ADMIN_PORT)
+        kill -9 $pid 2>/dev/null
+        echo "已终止管理端端口进程 PID: $pid"
     fi
 
     echo -e "${GREEN}[完成] 服务已停止${NC}"
@@ -243,6 +291,16 @@ show_status() {
         echo -e "  状态: ${RED}未运行${NC}"
     fi
 
+    # 管理端状态
+    echo "[管理端] 端口 $FRONTEND_ADMIN_PORT:"
+    if check_port $FRONTEND_ADMIN_PORT; then
+        echo -e "  状态: ${GREEN}运行中${NC}"
+        pid=$(get_port_pid $FRONTEND_ADMIN_PORT)
+        echo "  PID: $pid"
+    else
+        echo -e "  状态: ${RED}未运行${NC}"
+    fi
+
     echo "========================================"
 }
 
@@ -254,17 +312,21 @@ show_logs() {
     echo "选择要查看的日志:"
     echo "  1. 后端日志 (backend.log)"
     echo "  2. 前端日志 (frontend.log)"
-    echo "  3. 实时查看后端日志"
-    echo "  4. 实时查看前端日志"
-    echo "  5. 返回"
-    read -p "请选择 [1/2/3/4/5]: " choice
+    echo "  3. 管理端日志 (frontend-admin.log)"
+    echo "  4. 实时查看后端日志"
+    echo "  5. 实时查看前端日志"
+    echo "  6. 实时查看管理端日志"
+    echo "  7. 返回"
+    read -p "请选择 [1/2/3/4/5/6/7]: " choice
 
     case $choice in
         1) tail -100 "$LOG_DIR/backend.log" ;;
         2) tail -100 "$LOG_DIR/frontend.log" ;;
-        3) tail -f "$LOG_DIR/backend.log" ;;
-        4) tail -f "$LOG_DIR/frontend.log" ;;
-        5) return ;;
+        3) tail -100 "$LOG_DIR/frontend-admin.log" ;;
+        4) tail -f "$LOG_DIR/backend.log" ;;
+        5) tail -f "$LOG_DIR/frontend.log" ;;
+        6) tail -f "$LOG_DIR/frontend-admin.log" ;;
+        7) return ;;
         *) echo "无效选择" ;;
     esac
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776093919264,
+  "lastScanned": 1776516802806,
   "projectRoot": "D:\\Projects\\AI\\order-food-system",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1776093919247,
+      "lastAccessed": 1776516802796,
       "keyFiles": [
         "Dockerfile",
         "pom.xml"
@@ -46,7 +46,7 @@
       "path": "frontend",
       "purpose": null,
       "fileCount": 11,
-      "lastAccessed": 1776093919248,
+      "lastAccessed": 1776516802796,
       "keyFiles": [
         "check-pages.js",
         "Dockerfile",
@@ -59,7 +59,7 @@
       "path": "frontend-admin",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1776093919249,
+      "lastAccessed": 1776516802796,
       "keyFiles": [
         "index.html",
         "package-lock.json",
@@ -71,7 +71,7 @@
       "path": "logs",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1776093919249,
+      "lastAccessed": 1776516802796,
       "keyFiles": [
         "backend.log",
         "backend.pid",
@@ -82,28 +82,28 @@
     "uploads": {
       "path": "uploads",
       "purpose": null,
-      "fileCount": 12,
-      "lastAccessed": 1776093919250,
+      "fileCount": 14,
+      "lastAccessed": 1776516802796,
       "keyFiles": [
         "07720d8d-ae7a-46be-9298-c6c885e55dee.jpg",
+        "09c28fb4-fce6-4e67-9478-93fa577035a8.jpeg",
         "1fd56a10-9c22-467f-858c-4ca7efc4cda7.jpeg",
         "45675db9-b108-48f8-a152-532245baa7a4.jpeg",
-        "585aff02-5a34-4ebc-8589-a6031cbde326.jpg",
-        "5ebcc1ed-9737-4bff-8cb4-02ccd5fc02f3.jpeg"
+        "585aff02-5a34-4ebc-8589-a6031cbde326.jpg"
       ]
     },
     "backend\\src": {
       "path": "backend\\src",
       "purpose": "Source code",
       "fileCount": 0,
-      "lastAccessed": 1776093919251,
+      "lastAccessed": 1776516802797,
       "keyFiles": []
     },
     "frontend\\dist": {
       "path": "frontend\\dist",
       "purpose": "Distribution/build output",
       "fileCount": 3,
-      "lastAccessed": 1776093919252,
+      "lastAccessed": 1776516802797,
       "keyFiles": [
         "favicon.svg",
         "icons.svg",
@@ -114,14 +114,14 @@
       "path": "frontend\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776093919252,
+      "lastAccessed": 1776516802797,
       "keyFiles": []
     },
     "frontend-admin\\dist": {
       "path": "frontend-admin\\dist",
       "purpose": "Distribution/build output",
       "fileCount": 1,
-      "lastAccessed": 1776093919253,
+      "lastAccessed": 1776516802797,
       "keyFiles": [
         "index.html"
       ]
@@ -130,14 +130,14 @@
       "path": "frontend-admin\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776093919253,
+      "lastAccessed": 1776516802798,
       "keyFiles": []
     },
     "frontend-admin\\src": {
       "path": "frontend-admin\\src",
       "purpose": "Source code",
       "fileCount": 2,
-      "lastAccessed": 1776093919254,
+      "lastAccessed": 1776516802798,
       "keyFiles": [
         "App.jsx",
         "main.jsx"
@@ -146,213 +146,69 @@
   },
   "hotPaths": [
     {
-      "path": "backend",
-      "accessCount": 8,
-      "lastAccessed": 1776177665048,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\config\\WebMvcConfig.java",
-      "accessCount": 7,
-      "lastAccessed": 1776095392868,
+      "path": "frontend\\src\\pages\\Checkout.jsx",
+      "accessCount": 19,
+      "lastAccessed": 1776521281028,
       "type": "file"
     },
     {
-      "path": "frontend-admin\\src\\pages\\Products.jsx",
-      "accessCount": 5,
-      "lastAccessed": 1776094994802,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\resources\\application.yml",
-      "accessCount": 5,
-      "lastAccessed": 1776177723780,
-      "type": "directory"
-    },
-    {
-      "path": "frontend-admin\\src\\pages\\Orders.jsx",
+      "path": "frontend\\src",
       "accessCount": 4,
-      "lastAccessed": 1776094806273,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminUploadController.java",
-      "accessCount": 4,
-      "lastAccessed": 1776095312255,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\FileUploadController.java",
-      "accessCount": 4,
-      "lastAccessed": 1776095315936,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\UserController.java",
-      "accessCount": 4,
-      "lastAccessed": 1776095326818,
+      "lastAccessed": 1776518620339,
       "type": "directory"
     },
     {
-      "path": "frontend-admin\\src\\pages\\Promotions.jsx",
-      "accessCount": 3,
-      "lastAccessed": 1776094583779,
-      "type": "file"
-    },
-    {
-      "path": "frontend-admin\\src\\services\\api.js",
-      "accessCount": 3,
-      "lastAccessed": 1776094974510,
-      "type": "directory"
-    },
-    {
-      "path": "frontend-admin\\src",
-      "accessCount": 3,
-      "lastAccessed": 1776177795311,
-      "type": "directory"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bi3xs1u4r.output",
-      "accessCount": 2,
-      "lastAccessed": 1776094223537,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminOrderController.java",
-      "accessCount": 2,
-      "lastAccessed": 1776094780780,
-      "type": "file"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bd5z84mdp.output",
-      "accessCount": 2,
-      "lastAccessed": 1776095398814,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminController.java",
-      "accessCount": 2,
-      "lastAccessed": 1776177712856,
-      "type": "file"
-    },
-    {
-      "path": "frontend-admin\\src\\pages\\Login.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1776177810318,
+      "path": "screen\\coupon.png",
+      "accessCount": 4,
+      "lastAccessed": 1776521054460,
       "type": "file"
     },
     {
       "path": "backend\\src\\main\\java\\com\\ordering\\service\\impl\\PromotionServiceImpl.java",
-      "accessCount": 1,
-      "lastAccessed": 1776093937660,
+      "accessCount": 2,
+      "lastAccessed": 1776517300732,
       "type": "file"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bj6ngaesl.output",
-      "accessCount": 1,
-      "lastAccessed": 1776094060212,
-      "type": "file"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bfp5znzh8.output",
-      "accessCount": 1,
-      "lastAccessed": 1776094258478,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\Order.java",
-      "accessCount": 1,
-      "lastAccessed": 1776094711892,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\OrderController.java",
-      "accessCount": 1,
-      "lastAccessed": 1776094717980,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\User.java",
-      "accessCount": 1,
-      "lastAccessed": 1776094749759,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\dto\\OrderDetailDTO.java",
-      "accessCount": 1,
-      "lastAccessed": 1776094758848,
-      "type": "file"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\dto\\OrderListDTO.java",
-      "accessCount": 1,
-      "lastAccessed": 1776094763877,
-      "type": "file"
-    },
-    {
-      "path": "frontend-admin\\src\\pages",
-      "accessCount": 1,
-      "lastAccessed": 1776094997773,
-      "type": "directory"
-    },
-    {
-      "path": "frontend",
-      "accessCount": 1,
-      "lastAccessed": 1776095000570,
-      "type": "directory"
     },
     {
       "path": "frontend\\src\\services\\api.js",
-      "accessCount": 1,
-      "lastAccessed": 1776095003611,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\resources",
-      "accessCount": 1,
-      "lastAccessed": 1776095265459,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\config",
-      "accessCount": 1,
-      "lastAccessed": 1776095379621,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\config\\SecurityConfig.java",
-      "accessCount": 1,
-      "lastAccessed": 1776095382706,
-      "type": "directory"
-    },
-    {
-      "path": "backend\\src\\main\\java\\com\\ordering\\service\\AuthService.java",
-      "accessCount": 1,
-      "lastAccessed": 1776177668134,
+      "accessCount": 2,
+      "lastAccessed": 1776517324353,
       "type": "file"
     },
     {
-      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\Admin.java",
-      "accessCount": 1,
-      "lastAccessed": 1776177679231,
+      "path": "frontend\\src\\pages\\Cart.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776518625787,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\OrderList.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776518639983,
       "type": "file"
     },
     {
-      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\AdminMapper.java",
+      "path": "backend\\src\\main\\java\\com\\ordering\\dto\\UserCouponDTO.java",
       "accessCount": 1,
-      "lastAccessed": 1776177683338,
+      "lastAccessed": 1776517139254,
       "type": "file"
     },
     {
-      "path": "backend\\src\\main\\resources\\db\\migration\\V3__init_admin.sql",
+      "path": "backend\\src\\main\\java\\com\\ordering\\service",
       "accessCount": 1,
-      "lastAccessed": 1776177691448,
+      "lastAccessed": 1776517150111,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\Coupon.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1776517341932,
       "type": "file"
     },
     {
-      "path": "backend\\src\\main\\java\\com\\ordering\\service\\AdminService.java",
+      "path": "screen\\coupon_error.png",
       "accessCount": 1,
-      "lastAccessed": 1776177701522,
+      "lastAccessed": 1776517620679,
       "type": "file"
     }
   ],

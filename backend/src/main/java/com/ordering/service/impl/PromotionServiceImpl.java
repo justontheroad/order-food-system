@@ -159,8 +159,8 @@ public class PromotionServiceImpl implements PromotionService {
                     // 满减券
                     discount = coupon.getDiscountAmount();
                 } else if (coupon.getType() == 2) {
-                    // 折扣券
-                    discount = orderAmount.multiply(BigDecimal.valueOf(100 - coupon.getDiscountRate()))
+                    // 折扣券: 金额 × (折扣率/100)
+                    discount = orderAmount.multiply(BigDecimal.valueOf(coupon.getDiscountRate().longValue()))
                             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
                     if (coupon.getMaxDiscountAmount() != null && discount.compareTo(coupon.getMaxDiscountAmount()) > 0) {
                         discount = coupon.getMaxDiscountAmount();

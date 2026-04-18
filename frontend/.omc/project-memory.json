@@ -154,9 +154,21 @@
   },
   "hotPaths": [
     {
+      "path": "src\\pages\\Checkout.jsx",
+      "accessCount": 16,
+      "lastAccessed": 1776522209145,
+      "type": "file"
+    },
+    {
       "path": "src\\pages\\Coupon.jsx",
       "accessCount": 7,
       "lastAccessed": 1776180347995,
+      "type": "file"
+    },
+    {
+      "path": "src\\services\\api.js",
+      "accessCount": 7,
+      "lastAccessed": 1776180727066,
       "type": "file"
     },
     {
@@ -172,27 +184,21 @@
       "type": "file"
     },
     {
-      "path": "src\\services\\api.js",
-      "accessCount": 3,
-      "lastAccessed": 1776179694860,
-      "type": "file"
-    },
-    {
       "path": "src\\pages\\Member.css",
       "accessCount": 2,
       "lastAccessed": 1775834639243,
       "type": "file"
     },
     {
-      "path": "src\\pages\\Checkout.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775834666928,
-      "type": "file"
-    },
-    {
       "path": "src\\components\\ProductCard.jsx",
       "accessCount": 2,
       "lastAccessed": 1775885402291,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bfafw25eu.output",
+      "accessCount": 2,
+      "lastAccessed": 1776180666185,
       "type": "file"
     },
     {
@@ -211,6 +217,18 @@
       "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bdhckdvtc.output",
       "accessCount": 1,
       "lastAccessed": 1776179860918,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages",
+      "accessCount": 1,
+      "lastAccessed": 1776180417069,
+      "type": "directory"
+    },
+    {
+      "path": "src\\pages\\Login.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1776521453492,
       "type": "file"
     }
   ],
