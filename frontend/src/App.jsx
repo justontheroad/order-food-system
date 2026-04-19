@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Member from './pages/Member';
 import Coupon from './pages/Coupon';
+import MyCoupons from './pages/MyCoupons';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -44,6 +45,7 @@ function App() {
             <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="member" element={<ProtectedRoute><Member /></ProtectedRoute>} />
             <Route path="coupon" element={<ProtectedRoute><Coupon /></ProtectedRoute>} />
+            <Route path="my-coupons" element={<ProtectedRoute><MyCoupons /></ProtectedRoute>} />
           </Route>
         </Routes>
       </BrowserRouter>

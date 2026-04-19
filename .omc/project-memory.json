@@ -146,6 +146,12 @@
   },
   "hotPaths": [
     {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\impl\\PromotionServiceImpl.java",
+      "accessCount": 22,
+      "lastAccessed": 1776612946540,
+      "type": "file"
+    },
+    {
       "path": "frontend\\src\\pages\\Checkout.jsx",
       "accessCount": 19,
       "lastAccessed": 1776521281028,
@@ -153,9 +159,33 @@
     },
     {
       "path": "frontend\\src",
-      "accessCount": 4,
-      "lastAccessed": 1776518620339,
+      "accessCount": 8,
+      "lastAccessed": 1776601007972,
       "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminPromotionController.java",
+      "accessCount": 8,
+      "lastAccessed": 1776608203605,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\service\\PromotionService.java",
+      "accessCount": 6,
+      "lastAccessed": 1776606317170,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\App.jsx",
+      "accessCount": 6,
+      "lastAccessed": 1776608127855,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\UserCoupon.java",
+      "accessCount": 5,
+      "lastAccessed": 1776611549953,
+      "type": "file"
     },
     {
       "path": "screen\\coupon.png",
@@ -164,10 +194,34 @@
       "type": "file"
     },
     {
-      "path": "backend\\src\\main\\java\\com\\ordering\\service\\impl\\PromotionServiceImpl.java",
-      "accessCount": 2,
-      "lastAccessed": 1776517300732,
+      "path": "frontend\\src\\pages\\Coupon.jsx",
+      "accessCount": 4,
+      "lastAccessed": 1776606287719,
       "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\config\\SecurityConfig.java",
+      "accessCount": 4,
+      "lastAccessed": 1776611718390,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\PromotionController.java",
+      "accessCount": 4,
+      "lastAccessed": 1776611838744,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\App.jsx",
+      "accessCount": 3,
+      "lastAccessed": 1776601004661,
+      "type": "file"
+    },
+    {
+      "path": "backend",
+      "accessCount": 3,
+      "lastAccessed": 1776603670577,
+      "type": "directory"
     },
     {
       "path": "frontend\\src\\services\\api.js",
@@ -188,9 +242,45 @@
       "type": "file"
     },
     {
+      "path": "frontend-admin\\src\\pages\\Promotions.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776600164761,
+      "type": "file"
+    },
+    {
+      "path": "frontend\\src\\components\\Layout.jsx",
+      "accessCount": 2,
+      "lastAccessed": 1776601019078,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering",
+      "accessCount": 2,
+      "lastAccessed": 1776603644048,
+      "type": "directory"
+    },
+    {
       "path": "backend\\src\\main\\java\\com\\ordering\\dto\\UserCouponDTO.java",
-      "accessCount": 1,
-      "lastAccessed": 1776517139254,
+      "accessCount": 2,
+      "lastAccessed": 1776603652084,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\services\\api.js",
+      "accessCount": 2,
+      "lastAccessed": 1776603761851,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src",
+      "accessCount": 2,
+      "lastAccessed": 1776608111239,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\dto\\AdminUserCouponDTO.java",
+      "accessCount": 2,
+      "lastAccessed": 1776610003920,
       "type": "file"
     },
     {
@@ -200,15 +290,69 @@
       "type": "directory"
     },
     {
-      "path": "frontend\\src\\pages\\Coupon.jsx",
-      "accessCount": 1,
-      "lastAccessed": 1776517341932,
-      "type": "file"
-    },
-    {
       "path": "screen\\coupon_error.png",
       "accessCount": 1,
       "lastAccessed": 1776517620679,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\security",
+      "accessCount": 1,
+      "lastAccessed": 1776599475872,
+      "type": "directory"
+    },
+    {
+      "path": "frontend\\src\\pages\\MyCoupons.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1776600996547,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller",
+      "accessCount": 1,
+      "lastAccessed": 1776603626566,
+      "type": "directory"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\controller\\AdminOrderController.java",
+      "accessCount": 1,
+      "lastAccessed": 1776603647641,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\UserMapper.java",
+      "accessCount": 1,
+      "lastAccessed": 1776603666853,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\entity\\User.java",
+      "accessCount": 1,
+      "lastAccessed": 1776603673408,
+      "type": "file"
+    },
+    {
+      "path": "frontend-admin\\src\\pages\\UserCoupons.jsx",
+      "accessCount": 1,
+      "lastAccessed": 1776603804607,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\security\\JwtUtil.java",
+      "accessCount": 1,
+      "lastAccessed": 1776611516480,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\security\\JwtAuthenticationFilter.java",
+      "accessCount": 1,
+      "lastAccessed": 1776611520545,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main\\java\\com\\ordering\\mapper\\UserCouponMapper.java",
+      "accessCount": 1,
+      "lastAccessed": 1776611545638,
       "type": "file"
     }
   ],

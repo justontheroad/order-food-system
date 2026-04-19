@@ -6,13 +6,15 @@ import {
   FileTextOutlined,
   TeamOutlined,
   GiftOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  IdcardOutlined
 } from '@ant-design/icons'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import Orders from './pages/Orders'
 import Members from './pages/Members'
 import Promotions from './pages/Promotions'
+import UserCoupons from './pages/UserCoupons'
 import Login from './pages/Login'
 
 const { Sider, Content, Header } = Layout
@@ -22,7 +24,8 @@ const menuItems = [
   { key: '/admin/products', icon: <ShopOutlined />, label: '商品管理' },
   { key: '/admin/orders', icon: <FileTextOutlined />, label: '订单管理' },
   { key: '/admin/members', icon: <TeamOutlined />, label: '会员管理' },
-  { key: '/admin/promotions', icon: <GiftOutlined />, label: '促销管理' }
+  { key: '/admin/promotions', icon: <GiftOutlined />, label: '促销管理' },
+  { key: '/admin/user-coupons', icon: <IdcardOutlined />, label: '用户优惠券' }
 ]
 
 function AdminLayout() {
@@ -68,6 +71,7 @@ export default function App() {
             <Route path="/admin/orders" element={<Orders />} />
             <Route path="/admin/members" element={<Members />} />
             <Route path="/admin/promotions" element={<Promotions />} />
+            <Route path="/admin/user-coupons" element={<UserCoupons />} />
             <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
           </Route>
         </>

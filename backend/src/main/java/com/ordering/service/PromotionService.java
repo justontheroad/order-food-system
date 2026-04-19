@@ -47,4 +47,13 @@ public interface PromotionService {
      * 使用优惠券（通过 userId + couponId 查找并标记为已用）
      */
     void useCoupon(Long userId, Long couponId, Long orderId);
+
+    /**
+     * 管理端：分页查询所有用户优惠券
+     * @param page 页码
+     * @param pageSize 每页数量
+     * @param username 用户名（模糊搜索）
+     * @param status 状态筛选（0-未使用 1-已使用 2-已过期）
+     */
+    com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.ordering.dto.AdminUserCouponDTO> getAdminUserCoupons(Integer page, Integer pageSize, String username, Integer status);
 }

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1775490018078,
-  "projectRoot": "D:\\Projects\\AI\\web-test\\frontend",
+  "lastScanned": 1776590299680,
+  "projectRoot": "D:\\Projects\\AI\\order-food-system\\frontend",
   "techStack": {
     "languages": [
       {
@@ -62,7 +62,10 @@
       "public",
       "src"
     ],
-    "gitBranches": null
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
   },
   "customNotes": [],
   "directoryMap": {
@@ -70,7 +73,7 @@
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 3,
-      "lastAccessed": 1775490018064,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "favicon.svg",
         "icons.svg",
@@ -81,7 +84,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 2,
-      "lastAccessed": 1775490018067,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "favicon.svg",
         "icons.svg"
@@ -91,7 +94,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 4,
-      "lastAccessed": 1775490018068,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "App.css",
         "App.jsx",
@@ -103,17 +106,17 @@
       "path": "dist\\assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1775490018068,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
-        "index-B3Wy7uJz.css",
-        "index-ndUCZXBn.js"
+        "index-dgF0TjZr.js",
+        "index-DitT0Q5n.css"
       ]
     },
     "src\\assets": {
       "path": "src\\assets",
       "purpose": "Static assets",
       "fileCount": 3,
-      "lastAccessed": 1775490018068,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "hero.png",
         "react.svg",
@@ -124,7 +127,7 @@
       "path": "src\\components",
       "purpose": "UI components",
       "fileCount": 3,
-      "lastAccessed": 1775490018068,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "Layout.jsx",
         "ProductCard.jsx",
@@ -134,19 +137,19 @@
     "src\\pages": {
       "path": "src\\pages",
       "purpose": "Page components",
-      "fileCount": 8,
-      "lastAccessed": 1775490018068,
+      "fileCount": 12,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "Cart.jsx",
         "Checkout.jsx",
-        "Home.jsx"
+        "Coupon.css"
       ]
     },
     "src\\services": {
       "path": "src\\services",
       "purpose": "Business logic services",
       "fileCount": 1,
-      "lastAccessed": 1775490018068,
+      "lastAccessed": 1776590299661,
       "keyFiles": [
         "api.js"
       ]
@@ -154,81 +157,9 @@
   },
   "hotPaths": [
     {
-      "path": "src\\pages\\Checkout.jsx",
-      "accessCount": 25,
-      "lastAccessed": 1776526102304,
-      "type": "file"
-    },
-    {
       "path": "src\\pages\\Coupon.jsx",
-      "accessCount": 15,
-      "lastAccessed": 1776525272653,
-      "type": "file"
-    },
-    {
-      "path": "src\\services\\api.js",
-      "accessCount": 14,
-      "lastAccessed": 1776528867010,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\OrderDetail.jsx",
-      "accessCount": 8,
-      "lastAccessed": 1776528834079,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\Member.jsx",
       "accessCount": 3,
-      "lastAccessed": 1775834631426,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\Member.css",
-      "accessCount": 2,
-      "lastAccessed": 1775834639243,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\ProductCard.jsx",
-      "accessCount": 2,
-      "lastAccessed": 1775885402291,
-      "type": "file"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bfafw25eu.output",
-      "accessCount": 2,
-      "lastAccessed": 1776180666185,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\Menu.jsx",
-      "accessCount": 1,
-      "lastAccessed": 1775885380253,
-      "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 1,
-      "lastAccessed": 1776179679643,
-      "type": "directory"
-    },
-    {
-      "path": "C:\\Users\\49042\\AppData\\Local\\Temp\\claude\\D--Projects-AI-order-food-system\\c7fc9576-621d-47cb-9fea-dbb51b153d3b\\tasks\\bdhckdvtc.output",
-      "accessCount": 1,
-      "lastAccessed": 1776179860918,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages",
-      "accessCount": 1,
-      "lastAccessed": 1776180417069,
-      "type": "directory"
-    },
-    {
-      "path": "src\\pages\\Login.jsx",
-      "accessCount": 1,
-      "lastAccessed": 1776521453492,
+      "lastAccessed": 1776590323763,
       "type": "file"
     }
   ],

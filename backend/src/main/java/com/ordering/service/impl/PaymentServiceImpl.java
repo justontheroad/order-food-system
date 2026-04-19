@@ -51,7 +51,11 @@ public class PaymentServiceImpl implements PaymentService {
         Map<String, Object> result = new HashMap<>();
 
         if (mockMode) {
-            // 模拟支付模式
+            // 模拟支付模式 - 直接标记为已支付
+            order.setStatus(1); // 待制作
+            order.setPayType(1); // 微信支付
+            order.setPayTime(LocalDateTime.now());
+            orderMapper.updateById(order);
             result.put("orderId", orderId);
             result.put("qrCode", "mock://" + UUID.randomUUID().toString().substring(0, 8));
             result.put("mockUrl", "/api/payments/callback/wechat?orderId=" + orderId + "&mock=true");

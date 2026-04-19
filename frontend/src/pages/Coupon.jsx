@@ -73,10 +73,10 @@ const Coupon = () => {
             <div className="coupon-time">
               {effectiveExpireTime ? `有效期至 ${effectiveExpireTime.split('T')[0]}` : '长期有效'}
             </div>
-            {showReceiveBtn && receivedCouponIds.has(coupon.id) && (
+            {showReceiveBtn && receivedCouponIds.has(coupon.id) && coupon.limitPerUser === 1 && (
               <Tag color="success">已领取</Tag>
             )}
-            {showReceiveBtn && !receivedCouponIds.has(coupon.id) && !isExpired && (
+            {showReceiveBtn && !isExpired && (coupon.limitPerUser !== 1 || !receivedCouponIds.has(coupon.id)) && (
               <Button
                 size="small"
                 color="primary"

@@ -2,9 +2,11 @@ package com.ordering.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ordering.dto.AdminUserCouponDTO;
 import com.ordering.dto.ApiResponse;
 import com.ordering.entity.Coupon;
 import com.ordering.mapper.CouponMapper;
+import com.ordering.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminPromotionController {
 
     private final CouponMapper couponMapper;
+    private final PromotionService promotionService;
 
     @GetMapping
     public ApiResponse<Page<Coupon>> getPromotions(
@@ -26,6 +29,19 @@ public class AdminPromotionController {
         QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("id");
         Page<Coupon> result = couponMapper.selectPage(p, wrapper);
+        return ApiResponse.success(result);
+    }
+
+    /**
+     * 管理端：查询用户优惠券列表
+     */
+    @GetMapping("/user-coupons")
+    public ApiResponse<Page<AdminUserCouponDTO>> getUserCoupons(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) Integer status) {
+        Page<AdminUserCouponDTO> result = promotionService.getAdminUserCoupons(page, pageSize, username, status);
         return ApiResponse.success(result);
     }
 

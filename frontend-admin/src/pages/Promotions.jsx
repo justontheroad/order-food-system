@@ -44,6 +44,7 @@ export default function Promotions() {
       type: record.type === 1 ? 'reduce' : 'discount',
       value: record.type === 1 ? record.discountAmount : record.discountRate,
       maxDiscountAmount: record.maxDiscountAmount,
+      limitPerUser: record.limitPerUser,
       dateRange: record.startTime && record.endTime
         ? [dayjs(record.startTime), dayjs(record.endTime)]
         : null
@@ -72,6 +73,7 @@ export default function Promotions() {
         discountRate: values.type === 'discount' ? values.value : null,
         maxDiscountAmount: values.maxDiscountAmount || null,
         totalCount: values.totalCount,
+        limitPerUser: values.limitPerUser ?? 1,
         startTime: values.dateRange?.[0].format('YYYY-MM-DD'),
         endTime: values.dateRange?.[1].format('YYYY-MM-DD'),
         status: 1
@@ -115,6 +117,7 @@ export default function Promotions() {
     { title: '最大优惠', dataIndex: 'maxDiscountAmount', key: 'maxDiscountAmount', render: (v) => v ? `¥${v}` : '-' },
     { title: '发放数量', dataIndex: 'totalCount', key: 'totalCount' },
     { title: '已领取', dataIndex: 'receivedCount', key: 'receivedCount' },
+    { title: '限领', dataIndex: 'limitPerUser', key: 'limitPerUser', render: (v) => v ? v : '不限' },
     { title: '有效期', dataIndex: 'endTime', key: 'dateRange', render: (_, r) => `${r.startTime} ~ ${r.endTime}` },
     {
       title: '状态',
@@ -240,6 +243,9 @@ export default function Promotions() {
           </Form.Item>
           <Form.Item name="totalCount" label="发放数量" rules={[{ required: true, message: '请输入发放数量' }]}>
             <InputNumber min={1} precision={0} placeholder="请输入发放数量" style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item name="limitPerUser" label="每人限领" initialValue={1}>
+            <InputNumber min={0} precision={0} placeholder="0 表示不限领，1 表示每人1张" style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="dateRange" label="有效期" rules={[{ required: true, message: '请选择有效期' }]}>
             <RangePicker style={{ width: '100%' }} />

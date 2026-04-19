@@ -59,6 +59,7 @@ export const getPromotion = (id) => adminApi.get(`/promotions/${id}`)
 export const createPromotion = (data) => adminApi.post('/promotions', data)
 export const updatePromotion = (id, data) => adminApi.put(`/promotions/${id}`, data)
 export const deletePromotion = (id) => adminApi.delete(`/promotions/${id}`)
+export const getUserCoupons = (params) => adminApi.get('/promotions/user-coupons', { params })
 
 // 文件上传
 export const uploadImage = (formData) => adminApi.post('/upload/image', formData, {

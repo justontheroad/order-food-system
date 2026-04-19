@@ -1,12 +1,16 @@
 package com.ordering.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ordering.dto.AdminUserCouponDTO;
 import com.ordering.dto.DiscountPreviewDTO;
 import com.ordering.dto.UserCouponDTO;
 import com.ordering.entity.Coupon;
 import com.ordering.entity.UserCoupon;
+import com.ordering.entity.User;
 import com.ordering.mapper.CouponMapper;
 import com.ordering.mapper.UserCouponMapper;
+import com.ordering.mapper.UserMapper;
 import com.ordering.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,7 @@ public class PromotionServiceImpl implements PromotionService {
 
     private final CouponMapper couponMapper;
     private final UserCouponMapper userCouponMapper;
+    private final UserMapper userMapper;
 
     @Override
     public List<Coupon> getAvailableCoupons() {
@@ -37,13 +42,15 @@ public class PromotionServiceImpl implements PromotionService {
                 .eq(Coupon::getStatus, 1)
                 .le(Coupon::getStartTime, now)
                 .ge(Coupon::getEndTime, now)
-                .apply("total_count IS NULL OR received_count < total_count")
                 .orderByAsc(Coupon::getId));
     }
 
     @Override
     @Transactional
     public boolean receiveCoupon(Long userId, Long couponId) {
+        if (userId == null) {
+            throw new RuntimeException("用户ID不能为空");
+        }
         // 加锁防止并发领取
         synchronized (getLockKey(userId, couponId)) {
             Coupon coupon = couponMapper.selectById(couponId);
@@ -114,8 +121,10 @@ public class PromotionServiceImpl implements PromotionService {
                 .collect(Collectors.toList());
 
         // 批量查询优惠券信息
-        Map<Long, Coupon> couponMap = couponMapper.selectBatchIds(couponIds).stream()
-                .collect(Collectors.toMap(Coupon::getId, c -> c));
+        Map<Long, Coupon> couponMap = couponIds.isEmpty()
+                ? Map.of()
+                : couponMapper.selectBatchIds(couponIds).stream()
+                        .collect(Collectors.toMap(Coupon::getId, c -> c));
 
         // 转换为DTO
         return userCoupons.stream().map(uc -> {
@@ -281,5 +290,76 @@ public class PromotionServiceImpl implements PromotionService {
             return discount;
         }
         return BigDecimal.ZERO;
+    }
+
+    @Override
+    public Page<AdminUserCouponDTO> getAdminUserCoupons(Integer page, Integer pageSize, String username, Integer status) {
+        Page<UserCoupon> p = new Page<>(page, pageSize);
+        LambdaQueryWrapper<UserCoupon> wrapper = new LambdaQueryWrapper<>();
+
+        // 按用户名模糊搜索
+        if (username != null && !username.isEmpty()) {
+            // 先找出匹配的用户ID
+            List<User> users = userMapper.selectList(
+                new LambdaQueryWrapper<User>().like(User::getUsername, username)
+            );
+            List<Long> userIds = users.stream().map(User::getId).collect(Collectors.toList());
+            if (userIds.isEmpty()) {
+                return new Page<>(page, pageSize, 0);
+            }
+            wrapper.in(UserCoupon::getUserId, userIds);
+        }
+
+        // 按状态筛选
+        if (status != null) {
+            wrapper.eq(UserCoupon::getStatus, status);
+        }
+
+        wrapper.orderByDesc(UserCoupon::getReceivedAt);
+        Page<UserCoupon> result = userCouponMapper.selectPage(p, wrapper);
+
+        // 获取所有涉及的用户和优惠券信息
+        List<Long> userIds = result.getRecords().stream().map(UserCoupon::getUserId).distinct().collect(Collectors.toList());
+        List<Long> couponIds = result.getRecords().stream().map(UserCoupon::getCouponId).distinct().collect(Collectors.toList());
+
+        Map<Long, User> userMap = userIds.isEmpty()
+                ? Map.of()
+                : userMapper.selectBatchIds(userIds).stream()
+                        .collect(Collectors.toMap(User::getId, u -> u));
+        Map<Long, Coupon> couponMap = couponIds.isEmpty()
+                ? Map.of()
+                : couponMapper.selectBatchIds(couponIds).stream()
+                        .collect(Collectors.toMap(Coupon::getId, c -> c));
+
+        // 转换为DTO
+        List<AdminUserCouponDTO> dtoList = result.getRecords().stream().map(uc -> {
+            AdminUserCouponDTO dto = new AdminUserCouponDTO();
+            dto.setId(uc.getId());
+            dto.setUserId(uc.getUserId());
+            dto.setCouponId(uc.getCouponId());
+            dto.setStatus(uc.getStatus());
+            dto.setStatusText(getStatusText(uc.getStatus()));
+            dto.setReceivedAt(uc.getReceivedAt());
+            dto.setUsedAt(uc.getUsedAt());
+            dto.setOrderId(uc.getOrderId());
+
+            User user = userMap.get(uc.getUserId());
+            if (user != null) {
+                dto.setUsername(user.getUsername());
+                dto.setPhone(user.getPhone());
+            }
+
+            Coupon coupon = couponMap.get(uc.getCouponId());
+            if (coupon != null) {
+                dto.setCouponName(coupon.getName());
+                dto.setCouponType(coupon.getType());
+                dto.setCouponTypeText(coupon.getType() == 1 ? "满减券" : "折扣券");
+            }
+            return dto;
+        }).collect(Collectors.toList());
+
+        Page<AdminUserCouponDTO> dtoPage = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
+        dtoPage.setRecords(dtoList);
+        return dtoPage;
     }
 }

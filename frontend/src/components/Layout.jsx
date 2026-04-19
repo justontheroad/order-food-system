@@ -12,7 +12,7 @@ const Layout = () => {
   // 同步路由状态到 TabBar
   React.useEffect(() => {
     const path = location.pathname.replace('/', '');
-    if (['home', 'menu', 'cart', 'orders', 'profile', 'checkout', 'member', 'coupon'].includes(path)) {
+    if (['home', 'menu', 'cart', 'orders', 'profile', 'checkout', 'member', 'coupon', 'my-coupons'].includes(path)) {
       setActive(path);
     }
   }, [location.pathname]);
